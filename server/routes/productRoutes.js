@@ -1,4 +1,6 @@
 const express = require("express");
+const protect = require("../middleware/authMiddleware");
+const vendorOnly = require("../middleware/roleMiddleware");
 const router = express.Router();
 
 const {
@@ -17,6 +19,8 @@ router.get("/:id", getProductById);
 
 router.put("/:id", updateProduct);
 
-router.delete("/:id", deleteProduct);
+router.post("/", protect, vendorOnly, createProduct);
+router.put("/:id", protect, vendorOnly, updateProduct);
+router.delete("/:id", protect, vendorOnly, deleteProduct);
 
 module.exports = router;
