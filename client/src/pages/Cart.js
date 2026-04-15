@@ -101,6 +101,20 @@ function Cart() {
       >
         Clear Cart
       </button>
+
+      <button
+  onClick={() => window.location.href = "/checkout"}
+  style={{
+    marginTop: "10px",
+    backgroundColor: "green",
+    color: "white",
+    padding: "10px",
+    border: "none",
+    borderRadius: "5px"
+  }}
+>
+  Proceed to Checkout
+</button>
     </div>
   );
 }
