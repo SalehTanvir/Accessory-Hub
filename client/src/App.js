@@ -7,21 +7,52 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
 
+import Navbar from "./components/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
+
 function App() {
   return (
     <Router>
-       <div style={{ padding: "10px", background: "#eee" }}>
-        <a href="/">Home</a> | <a href="/cart">Cart</a> | <a href="/my-orders">My Orders</a> 
-      </div>
+
+      <Navbar />
 
       <Routes>
+
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/my-orders" element={<MyOrders />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/my-orders"
+          element={
+            <PrivateRoute>
+              <MyOrders />
+            </PrivateRoute>
+          }
+        />
+
       </Routes>
+
     </Router>
   );
 }
