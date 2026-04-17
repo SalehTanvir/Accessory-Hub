@@ -13,36 +13,65 @@ function Navbar() {
   };
 
   return (
-    <div style={{
-      padding: "15px",
-      backgroundColor: "#222",
+    <nav style={{
+      padding: "15px 30px",
+      backgroundColor: "#111",
       color: "#fff",
       display: "flex",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      alignItems: "center"
     }}>
-      
-      <div>
-        <Link to="/" style={{ color: "#fff", marginRight: "15px" }}>Home</Link>
-        <Link to="/cart" style={{ color: "#fff", marginRight: "15px" }}>Cart</Link>
-        <Link to="/my-orders" style={{ color: "#fff" }}>Orders</Link>
-      </div>
 
+      {/* LEFT SIDE */}
       <div>
-        {user ? (
+        <Link to="/" style={linkStyle}>Home</Link>
+        <Link to="/cart" style={linkStyle}>Cart</Link>
+
+        {user && (
           <>
-            <span style={{ marginRight: "10px" }}>Logged In</span>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" style={{ color: "#fff", marginRight: "10px" }}>Login</Link>
-            <Link to="/register" style={{ color: "#fff" }}>Register</Link>
+            <Link to="/my-orders" style={linkStyle}>Orders</Link>
+            <Link to="/vendor" style={linkStyle}>Vendor</Link>
           </>
         )}
       </div>
 
-    </div>
+      {/* RIGHT SIDE */}
+      <div>
+        {user ? (
+          <>
+            <span style={{ marginRight: "15px" }}>👤 User</span>
+
+            <button onClick={handleLogout} style={logoutBtn}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={linkStyle}>Login</Link>
+            <Link to="/register" style={linkStyle}>Register</Link>
+          </>
+        )}
+      </div>
+
+    </nav>
   );
 }
+
+// styles
+const linkStyle = {
+  color: "#fff",
+  marginRight: "15px",
+  textDecoration: "none",
+  fontWeight: "500"
+};
+
+const logoutBtn = {
+  padding: "6px 12px",
+  backgroundColor: "red",
+  color: "#fff",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer"
+};
 
 export default Navbar;

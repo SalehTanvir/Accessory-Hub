@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
-
+import VendorDashboard from "./pages/VendorDashboard";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -47,6 +47,14 @@ function App() {
           element={
             <PrivateRoute>
               <MyOrders />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/vendor"
+          element={
+            <PrivateRoute>
+              <VendorDashboard />
             </PrivateRoute>
           }
         />
