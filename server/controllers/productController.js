@@ -149,6 +149,15 @@ exports.getAllProductsAdmin = async (req, res) => {
   }
 };
 
+// GET VENDOR PRODUCTS
+exports.getVendorProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ vendor: req.user.id });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // ADMIN: DELETE PRODUCT
 exports.deleteProductAdmin = async (req, res) => {
