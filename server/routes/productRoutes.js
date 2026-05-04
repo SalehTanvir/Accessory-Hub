@@ -1,7 +1,4 @@
 const express = require("express");
-const protect = require("../middleware/authMiddleware");
-const vendorOnly = require("../middleware/roleMiddleware");
-const { getVendorProducts } = require("../controllers/productController");
 const router = express.Router();
 
 const {
@@ -9,20 +6,42 @@ const {
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getVendorProducts,
+  getAllProductsAdmin
 } = require("../controllers/productController");
 
-router.post("/", createProduct);
+const { protect, authorizeRoles } = require("../middleware/authMiddleware");
 
+
+// =========================
+// PUBLIC ROUTES
+// =========================
 router.get("/", getProducts);
 
+
+// =========================
+// ADMIN ROUTES
+// =========================
+router.get("/admin", protect, authorizeRoles("admin"), getAllProductsAdmin);
+
+
+// =========================
+// VENDOR ROUTES
+// =========================
+router.post("/", protect, authorizeRoles("vendor"), createProduct);
+
+router.get("/vendor", protect, authorizeRoles("vendor"), getVendorProducts);
+
+router.put("/:id", protect, authorizeRoles("vendor"), updateProduct);
+
+router.delete("/:id", protect, authorizeRoles("vendor"), deleteProduct);
+
+
+// =========================
+// PUBLIC SINGLE PRODUCT
+// =========================
 router.get("/:id", getProductById);
 
-router.put("/:id", updateProduct);
-
-router.post("/", protect, vendorOnly, createProduct);
-router.put("/:id", protect, vendorOnly, updateProduct);
-router.delete("/:id", protect, vendorOnly, deleteProduct);
-router.get("/vendor", protect, getVendorProducts);
 
 module.exports = router;

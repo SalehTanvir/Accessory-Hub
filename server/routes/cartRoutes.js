@@ -9,8 +9,10 @@ const {
 
 const protect = require("../middleware/authMiddleware");
 
+
 router.post("/add", protect, addToCart);
 router.get("/", protect, getCart);
 router.delete("/remove", protect, removeFromCart);
+router.delete("/clear", protect, clearCart);
 
 module.exports = router;
