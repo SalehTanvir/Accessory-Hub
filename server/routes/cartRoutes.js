@@ -4,10 +4,11 @@ const router = express.Router();
 const {
   addToCart,
   getCart,
-  removeFromCart
+  removeFromCart,
+  clearCart
 } = require("../controllers/cartController");
 
-const protect = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
 
 
 router.post("/add", protect, addToCart);

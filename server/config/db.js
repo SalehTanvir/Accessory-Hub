@@ -2,11 +2,15 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/accessoryhub");
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI is not defined");
+    }
+
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB connected");
   } catch (error) {
     console.log(error);
-    process.exit(1);
+    console.warn("MongoDB connection failed. The server will keep running, but database-backed features will not work until the connection is fixed.");
   }
 };
 

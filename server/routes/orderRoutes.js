@@ -8,7 +8,7 @@ const {
   updateOrderStatus
 } = require("../controllers/orderController");
 
-const protect = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
 
 router.post("/", protect, createOrder);
 
