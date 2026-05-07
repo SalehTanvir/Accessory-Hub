@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { FiHome, FiShoppingCart, FiPackage, FiTrendingUp, FiLogOut, FiLogIn, FiUserPlus } from "react-icons/fi";
 
 function Navbar() {
 
@@ -13,42 +14,63 @@ function Navbar() {
   };
 
   return (
-    <nav style={{
-      padding: "15px 30px",
-      backgroundColor: "#111",
-      color: "#fff",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }}>
-
-      {/* LEFT SIDE */}
+    <nav>
+      {/* LOGO & BRAND */}
       <div>
-        <Link to="/" style={linkStyle}>Home</Link>
-        <Link to="/cart" style={linkStyle}>Cart</Link>
+        <Link to="/" style={{ 
+          fontSize: "1.75rem", 
+          fontWeight: "bold", 
+          marginRight: "3rem",
+          background: "linear-gradient(135deg, #a78bfa, #ec4899)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem"
+        }}>
+          <FiShoppingCart size={28} /> AccessoryHub
+        </Link>
+        
+        <Link to="/" title="Home" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <FiHome size={18} /> Home
+        </Link>
+        <Link to="/cart" title="Shopping Cart" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <FiShoppingCart size={18} /> Cart
+        </Link>
 
         {user && (
           <>
-            <Link to="/my-orders" style={linkStyle}>Orders</Link>
-            <Link to="/vendor" style={linkStyle}>Vendor</Link>
+            <Link to="/my-orders" title="My Orders" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FiPackage size={18} /> Orders
+            </Link>
+            <Link to="/vendor" title="Vendor Dashboard" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FiTrendingUp size={18} /> Vendor
+            </Link>
           </>
         )}
       </div>
 
       {/* RIGHT SIDE */}
-      <div>
+      <div className="navbar-right">
         {user ? (
           <>
-            <span style={{ marginRight: "15px" }}>👤 User</span>
+            <span style={{ fontSize: "1rem", fontWeight: 500 }}>
+              Welcome, {user.name?.split(" ")[0] || "User"}
+            </span>
 
-            <button onClick={handleLogout} style={logoutBtn}>
-              Logout
+            <button onClick={handleLogout} className="logout-btn" title="Logout" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FiLogOut size={18} /> Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={linkStyle}>Login</Link>
-            <Link to="/register" style={linkStyle}>Register</Link>
+            <Link to="/login" title="Login" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FiLogIn size={18} /> Login
+            </Link>
+            <Link to="/register" title="Create Account" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <FiUserPlus size={18} /> Register
+            </Link>
           </>
         )}
       </div>
@@ -56,22 +78,5 @@ function Navbar() {
     </nav>
   );
 }
-
-// styles
-const linkStyle = {
-  color: "#fff",
-  marginRight: "15px",
-  textDecoration: "none",
-  fontWeight: "500"
-};
-
-const logoutBtn = {
-  padding: "6px 12px",
-  backgroundColor: "red",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer"
-};
 
 export default Navbar;

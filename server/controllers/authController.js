@@ -7,6 +7,7 @@ const User = require("../models/User");
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    const safeRole = ["customer", "vendor"].includes(role) ? role : "customer";
 
     // check if user exists
     const existingUser = await User.findOne({ email });
@@ -23,7 +24,7 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "user" // default role
+      role: safeRole
     });
 
     await user.save();
@@ -64,7 +65,7 @@ exports.loginUser = async (req, res) => {
         id: user._id,
         role: user.role
       },
-      "secretkey", 
+      process.env.JWT_SECRET, 
       { expiresIn: "7d" }
     );
 
