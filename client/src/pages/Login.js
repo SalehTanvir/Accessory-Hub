@@ -3,6 +3,7 @@ import API from "../services/api";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
+import "./Login.css";
 
 function Login() {
 
@@ -38,63 +39,73 @@ function Login() {
   };
 
   return (
-    <div className="page-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "calc(100vh - 70px)" }}>
-      <form onSubmit={handleLogin} style={{ maxWidth: 500 }}>
-        <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
-          <FiLogIn size={24} /> Welcome Back
-        </h2>
-        <p style={{ textAlign: "center", color: "#6b7280", marginBottom: "1.5rem", fontSize: "0.95rem" }}>
-          Login to your AccessoryHub account
-        </p>
+    <section className="login-shell">
+      <div className="login-aurora login-aurora-left" aria-hidden="true" />
+      <div className="login-aurora login-aurora-right" aria-hidden="true" />
 
-        <div className="form-group">
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <FiMail size={16} /> Email Address
-          </label>
-          <input
-            type="email"
-            placeholder="your@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <FiLock size={16} /> Password
-          </label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit" className="btn-primary" disabled={loading} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-          {loading ? "Logging in..." : <>
-            <FiLogIn size={16} /> Login
-          </>}
-        </button>
-
-        <div style={{
-          marginTop: "1.5rem",
-          padding: "1rem",
-          background: "linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05))",
-          borderRadius: "0.5rem",
-          textAlign: "center"
-        }}>
-          <p style={{ margin: 0, color: "#6b7280", fontSize: "0.9rem" }}>
-            Don't have an account?{" "}
-            <Link to="/register" style={{ color: "#7c3aed", fontWeight: "600", textDecoration: "none" }}>
-              Create one now
-            </Link>
+      <div className="login-panel">
+        <aside className="login-brand">
+          <p className="login-badge">AccessoryHub</p>
+          <h1>Welcome Back</h1>
+          <p>
+            Sign in to continue tracking orders, managing your cart, and
+            discovering the latest accessories.
           </p>
-        </div>
-      </form>
-    </div>
+          <div className="login-brand-highlight">
+            <span />
+            <span />
+            <span />
+          </div>
+        </aside>
+
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2>Sign In</h2>
+          <p className="login-form-subtitle">Use your email and password to access your account.</p>
+
+          <div className="login-input-group">
+            <label htmlFor="email" className="login-label">
+              <FiMail size={16} /> Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="login-input-group">
+            <label htmlFor="password" className="login-label">
+              <FiLock size={16} /> Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="login-submit-btn" disabled={loading}>
+            {loading ? (
+              "Logging in..."
+            ) : (
+              <>
+                <FiLogIn size={16} /> Login
+              </>
+            )}
+          </button>
+
+          <p className="login-register-text">
+            Don't have an account? <Link to="/register">Create one now</Link>
+          </p>
+        </form>
+      </div>
+    </section>
   );
 }
 
