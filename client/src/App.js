@@ -9,6 +9,7 @@ import MyOrders from "./pages/MyOrders";
 import VendorDashboard from "./pages/VendorDashboard";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
+import VendorRoute from "./components/VendorRoute";
 
 function App() {
   return (
@@ -23,41 +24,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/cart"
-          element={
-            <PrivateRoute>
-              <Cart />
-            </PrivateRoute>
-          }
-        />
+        {/* Protected Routes — any logged-in user */}
+        <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+        <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+        <Route path="/my-orders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
 
-        <Route
-          path="/checkout"
-          element={
-            <PrivateRoute>
-              <Checkout />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/my-orders"
-          element={
-            <PrivateRoute>
-              <MyOrders />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/vendor"
-          element={
-            <PrivateRoute>
-              <VendorDashboard />
-            </PrivateRoute>
-          }
-        />
+        {/* Vendor-only Route */}
+        <Route path="/vendor" element={<VendorRoute><VendorDashboard /></VendorRoute>} />
 
       </Routes>
 

@@ -1,13 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { FiShoppingCart, FiPackage, FiTrendingUp, FiLogOut, FiLogIn, FiUserPlus, FiMenu, FiX, FiUser, FiZap } from "react-icons/fi";
+import {
+  FiShoppingCart, FiPackage, FiTrendingUp,
+  FiLogOut, FiLogIn, FiUserPlus, FiUser, FiZap,
+} from "react-icons/fi";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -16,76 +18,66 @@ function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
-  const navLinkStyle = (path) => ({
-    display: "flex", alignItems: "center", gap: "0.4rem",
-    color: isActive(path) ? "#a855f7" : undefined,
-    background: isActive(path) ? "rgba(124,58,237,0.1)" : undefined,
-  });
-
   return (
-    <nav>
-      <div>
-        <Link to="/" style={{
-          fontSize: "1.5rem", fontWeight: "800", marginRight: "1.5rem",
-          background: "linear-gradient(135deg, #a855f7, #06d6a0)",
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          backgroundClip: "text", display: "flex", alignItems: "center", gap: "0.5rem"
-        }}>
-          <FiZap size={24} style={{color: "#a855f7", WebkitTextFillColor: "initial"}} /> AccessoryHub
-        </Link>
+    <nav className="sticky top-0 z-50 w-full bg-[rgba(10,11,15,0.85)] backdrop-blur-sm border-b border-white/6 px-4 py-3">
+      {/* LOGO + LEFT LINKS */}
+      <div className="mx-auto max-w-[1200px]">
+        <div className="flex items-center justify-between gap-4">
+          {/* LEFT SIDE */}
+          <div className="flex items-center gap-2">
+            <Link to="/" className="mr-4 inline-flex items-center gap-2 text-2xl font-extrabold bg-gradient-to-r from-violet-400 to-emerald-300 bg-clip-text text-transparent">
+              <FiZap size={22} className="text-violet-400" />
+              AccessoryHub
+            </Link>
 
-        <Link to="/" style={navLinkStyle("/")} title="Home">
-          <FiShoppingCart size={17} /> Shop
-        </Link>
-        <Link to="/cart" style={navLinkStyle("/cart")} title="Cart">
-          <FiShoppingCart size={17} /> Cart
-        </Link>
+            <Link to="/" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${isActive('/') ? 'text-violet-300 bg-violet-500/10' : 'text-slate-300 hover:text-violet-300 hover:bg-white/2'}`}>
+              <FiShoppingCart size={16} /> Shop
+            </Link>
 
-        {user && (
-          <>
-            <Link to="/my-orders" style={navLinkStyle("/my-orders")} title="Orders">
-              <FiPackage size={17} /> Orders
+            <Link to="/cart" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${isActive('/cart') ? 'text-violet-300 bg-violet-500/10' : 'text-slate-300 hover:text-violet-300 hover:bg-white/2'}`}>
+              <FiShoppingCart size={16} /> Cart
             </Link>
-            <Link to="/vendor" style={navLinkStyle("/vendor")} title="Vendor">
-              <FiTrendingUp size={17} /> Vendor
-            </Link>
-          </>
-        )}
-      </div>
 
-      <div className="navbar-right">
-        {user ? (
-          <>
-            <span style={{
-              display: "flex", alignItems: "center", gap: "0.4rem",
-              background: "rgba(6,214,160,0.1)", padding: "0.35rem 0.75rem",
-              borderRadius: "20px", border: "1px solid rgba(6,214,160,0.2)"
-            }}>
-              <FiUser size={14} /> {user.name?.split(" ")[0] || "User"}
-            </span>
-            <button onClick={handleLogout} className="logout-btn" title="Logout"
-              style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              <FiLogOut size={16} /> Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" style={{
-              ...navLinkStyle("/login"),
-              background: "rgba(124,58,237,0.1)", padding: "0.4rem 0.85rem",
-              borderRadius: "8px", border: "1px solid rgba(124,58,237,0.2)"
-            }}>
-              <FiLogIn size={16} /> Login
-            </Link>
-            <Link to="/register" style={{
-              ...navLinkStyle("/register"),
-              background: "linear-gradient(135deg,#7c3aed,#6d28d9)",
-              color: "#fff", padding: "0.4rem 0.85rem", borderRadius: "8px"
-            }}>
-              <FiUserPlus size={16} /> Register
-            </Link>
-          </>
-        )}
+            {user && (
+              <Link to="/my-orders" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${isActive('/my-orders') ? 'text-violet-300 bg-violet-500/10' : 'text-slate-300 hover:text-violet-300 hover:bg-white/2'}`}>
+                <FiPackage size={16} /> Orders
+              </Link>
+            )}
+
+            {user?.role === 'vendor' && (
+              <Link to="/vendor" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition border ${isActive('/vendor') ? 'border-emerald-300 bg-emerald-300/10 text-emerald-300' : 'border-emerald-600/20 text-emerald-300 hover:bg-emerald-300/6'}`}>
+                <FiTrendingUp size={16} /> Vendor
+              </Link>
+            )}
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="flex items-center gap-3">
+            {user ? (
+            <>
+              {/* User badge — shows role */}
+              <div className={`flex items-center gap-3 rounded-full px-3 py-2 text-sm font-semibold ${user.role === 'vendor' ? 'bg-emerald-400/10 text-emerald-300 border border-emerald-300/20' : 'bg-violet-500/8 text-violet-300 border border-violet-300/20'}`}>
+                <FiUser size={16} />
+                <span className="truncate">{user.name?.split(' ')[0] || 'User'}</span>
+                <span className={`ml-2 rounded-full px-2 py-0.5 text-xs font-bold uppercase ${user.role === 'vendor' ? 'bg-emerald-300/10 text-emerald-300' : 'bg-violet-300/10 text-violet-300'}`}>{user.role}</span>
+              </div>
+
+              <button onClick={handleLogout} className="ml-2 inline-flex items-center gap-2 rounded-lg bg-red-600/10 px-3 py-2 text-sm font-semibold text-red-400 hover:bg-red-600/20">
+                <FiLogOut size={15} /> Logout
+              </button>
+            </>
+            ) : (
+            <>
+              <Link to="/login" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 hover:text-violet-300 hover:bg-white/2">
+                <FiLogIn size={15} /> Login
+              </Link>
+              <Link to="/register" className="ml-2 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 px-4 py-2 text-sm font-semibold text-white">
+                <FiUserPlus size={15} /> Register
+              </Link>
+            </>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

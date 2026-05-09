@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { FiMapPin, FiCreditCard, FiCheckCircle, FiArrowLeft, FiShoppingCart } from "react-icons/fi";
+import { FiMapPin, FiCreditCard, FiCheckCircle, FiArrowLeft, FiBox } from "react-icons/fi";
 
 function Checkout() {
-
   const navigate = useNavigate();
-
   const [step, setStep] = useState(1);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -21,19 +19,10 @@ function Checkout() {
 
     try {
       await API.post("/orders", {
-        shippingAddress: {
-          address,
-          city,
-          postalCode,
-          country
-        },
+        shippingAddress: { address, city, postalCode, country },
         paymentMethod
       });
-
-      alert("Order placed successfully!");
-
       navigate("/my-orders");
-
     } catch (error) {
       console.error("Order error:", error);
       alert("Failed to place order");
@@ -45,216 +34,144 @@ function Checkout() {
   const isStep1Valid = address && city && postalCode;
 
   return (
-    <div className="page-container">
-      <h2 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <FiShoppingCart size={28} /> Checkout
+    <div className="mx-auto min-h-[calc(100vh-60px)] max-w-[1400px] px-3 py-4 text-slate-100 sm:px-6 lg:px-8">
+      <h2 className="mb-8 text-center text-2xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+        Secure Checkout
       </h2>
 
-      {/* PROGRESS STEPS */}
-      <div className="checkout-steps">
-        <div className={`step ${step >= 1 ? 'active' : 'inactive'}`}>
-          <div className="step-number">1</div>
-          <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.9rem", fontWeight: 500 }}>Shipping</p>
+      <div className="mx-auto mb-10 flex max-w-3xl items-center">
+        <div className="flex flex-1 flex-col items-center">
+          <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${step >= 1 ? "bg-gradient-to-r from-violet-600 to-violet-700 text-white shadow-lg shadow-violet-500/30" : "bg-slate-800 text-slate-500"}`}>
+            {step > 1 ? <FiCheckCircle /> : "1"}
+          </div>
+          <p className={`mt-2 text-xs font-semibold uppercase tracking-[0.2em] ${step >= 1 ? "text-slate-100" : "text-slate-500"}`}>Shipping</p>
         </div>
-        <div className={`step ${step >= 2 ? 'active' : 'inactive'}`}>
-          <div className="step-number">2</div>
-          <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.9rem", fontWeight: 500 }}>Payment</p>
+        <div className={`h-1 flex-1 rounded-full ${step >= 2 ? "bg-gradient-to-r from-violet-600 to-emerald-400" : "bg-slate-800"}`} />
+        <div className="flex flex-1 flex-col items-center">
+          <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${step >= 2 ? "bg-gradient-to-r from-violet-600 to-violet-700 text-white shadow-lg shadow-violet-500/30" : "bg-slate-800 text-slate-500"}`}>
+            {step > 2 ? <FiCheckCircle /> : "2"}
+          </div>
+          <p className={`mt-2 text-xs font-semibold uppercase tracking-[0.2em] ${step >= 2 ? "text-slate-100" : "text-slate-500"}`}>Payment</p>
         </div>
-        <div className={`step ${step >= 3 ? 'active' : 'inactive'}`}>
-          <div className="step-number">3</div>
-          <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.9rem", fontWeight: 500 }}>Review</p>
+        <div className={`h-1 flex-1 rounded-full ${step >= 3 ? "bg-gradient-to-r from-violet-600 to-emerald-400" : "bg-slate-800"}`} />
+        <div className="flex flex-1 flex-col items-center">
+          <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${step >= 3 ? "bg-gradient-to-r from-violet-600 to-violet-700 text-white shadow-lg shadow-violet-500/30" : "bg-slate-800 text-slate-500"}`}>3</div>
+          <p className={`mt-2 text-xs font-semibold uppercase tracking-[0.2em] ${step >= 3 ? "text-slate-100" : "text-slate-500"}`}>Review</p>
         </div>
       </div>
 
-      <form className="checkout-form" onSubmit={(e) => {
+      <form
+        className="mx-auto max-w-3xl rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl backdrop-blur sm:p-8"
+        onSubmit={(e) => {
         e.preventDefault();
-        if (step === 1 && isStep1Valid) {
-          setStep(2);
-        } else if (step === 2) {
-          setStep(3);
-        } else if (step === 3) {
-          handleOrder(e);
-        }
+        if (step === 1 && isStep1Valid) setStep(2);
+        else if (step === 2) setStep(3);
+        else if (step === 3) handleOrder(e);
       }}>
 
-        {/* STEP 1: SHIPPING */}
         {step === 1 && (
-          <>
-            <h3 style={{ marginTop: 0, marginBottom: "1.5rem", color: "#7c3aed", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <FiMapPin size={20} /> Shipping Address
-            </h3>
-
-            <div className="form-group">
-              <label>Full Address</label>
-              <input
-                type="text"
-                placeholder="Enter your full address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-              />
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+              <div className="rounded-xl bg-violet-500/10 p-2 text-violet-300"><FiMapPin size={20} /></div>
+              <h3 className="text-xl font-bold text-slate-100">Shipping Address</h3>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              <div className="form-group">
-                <label>City</label>
-                <input
-                  type="text"
-                  placeholder="Enter your city"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  required
-                />
-              </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Full Address</label>
+              <input type="text" placeholder="House/Apartment, Street" value={address} onChange={(e) => setAddress(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+            </div>
 
-              <div className="form-group">
-                <label>Postal Code</label>
-                <input
-                  type="text"
-                  placeholder="Enter postal code"
-                  value={postalCode}
-                  onChange={(e) => setPostalCode(e.target.value)}
-                  required
-                />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">City</label>
+                <input type="text" placeholder="E.g. Dhaka" value={city} onChange={(e) => setCity(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Postal Code</label>
+                <input type="text" placeholder="E.g. 1212" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
               </div>
             </div>
 
-            <div className="form-group">
-              <label>Country</label>
-              <input
-                type="text"
-                value={country}
-                disabled
-              />
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Country</label>
+              <input type="text" value={country} disabled className="w-full rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-slate-400 opacity-80" />
             </div>
-          </>
+          </div>
         )}
 
-        {/* STEP 2: PAYMENT */}
         {step === 2 && (
-          <>
-            <h3 style={{ marginTop: 0, marginBottom: "1.5rem", color: "#7c3aed", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <FiCreditCard size={20} /> Payment Method
-            </h3>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+              <div className="rounded-xl bg-emerald-400/10 p-2 text-emerald-300"><FiCreditCard size={20} /></div>
+              <h3 className="text-xl font-bold text-slate-100">Payment Method</h3>
+            </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <label style={{ 
-                padding: "1rem", 
-                border: paymentMethod === "COD" ? "2px solid #7c3aed" : "2px solid #e5e7eb",
-                borderRadius: "0.5rem",
-                cursor: "pointer",
-                transition: "all 0.3s",
-                background: paymentMethod === "COD" ? "rgba(124, 58, 237, 0.05)" : "white"
-              }}>
-                <input
-                  type="radio"
-                  value="COD"
-                  checked={paymentMethod === "COD"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  style={{ marginRight: "0.75rem" }}
-                />
-                <strong>Cash on Delivery</strong>
-                <p style={{ margin: "0.5rem 0 0 1.75rem", fontSize: "0.9rem", color: "#6b7280" }}>
-                  Pay when you receive your order
-                </p>
+            <div className="space-y-4">
+              <label className={`flex cursor-pointer items-start gap-4 rounded-2xl border p-5 transition ${paymentMethod === "COD" ? "border-violet-500/60 bg-violet-500/10 shadow-[0_0_24px_rgba(124,58,237,0.15)]" : "border-white/10 bg-slate-800/60 hover:border-violet-500/30"}`}>
+                <input type="radio" value="COD" checked={paymentMethod === "COD"} onChange={(e) => setPaymentMethod(e.target.value)} className="mt-1 h-4 w-4 accent-violet-500" />
+                <div>
+                  <div className="flex items-center gap-2 font-semibold text-slate-100">
+                    <FiBox className="text-violet-300" /> Cash on Delivery
+                  </div>
+                  <p className="mt-1 text-sm text-slate-400">Pay with cash when your order is delivered to your doorstep.</p>
+                </div>
               </label>
 
-              <label style={{ 
-                padding: "1rem", 
-                border: paymentMethod === "Online" ? "2px solid #7c3aed" : "2px solid #e5e7eb",
-                borderRadius: "0.5rem",
-                cursor: "pointer",
-                transition: "all 0.3s",
-                background: paymentMethod === "Online" ? "rgba(124, 58, 237, 0.05)" : "white"
-              }}>
-                <input
-                  type="radio"
-                  value="Online"
-                  checked={paymentMethod === "Online"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  style={{ marginRight: "0.75rem" }}
-                />
-                <strong>Online Payment</strong>
-                <p style={{ margin: "0.5rem 0 0 1.75rem", fontSize: "0.9rem", color: "#6b7280" }}>
-                  Credit/Debit card, Mobile wallets, Bank transfer
-                </p>
+              <label className={`flex cursor-pointer items-start gap-4 rounded-2xl border p-5 transition ${paymentMethod === "Online" ? "border-violet-500/60 bg-violet-500/10 shadow-[0_0_24px_rgba(124,58,237,0.15)]" : "border-white/10 bg-slate-800/60 hover:border-violet-500/30"}`}>
+                <input type="radio" value="Online" checked={paymentMethod === "Online"} onChange={(e) => setPaymentMethod(e.target.value)} className="mt-1 h-4 w-4 accent-violet-500" />
+                <div>
+                  <div className="flex items-center gap-2 font-semibold text-slate-100">
+                    <FiCreditCard className="text-emerald-300" /> Online Payment
+                  </div>
+                  <p className="mt-1 text-sm text-slate-400">Pay securely using Credit/Debit card, bKash, or Nagad.</p>
+                </div>
               </label>
             </div>
-          </>
+          </div>
         )}
 
-        {/* STEP 3: REVIEW */}
         {step === 3 && (
-          <>
-            <h3 style={{ marginTop: 0, marginBottom: "1.5rem", color: "#7c3aed", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <FiCheckCircle size={20} /> Review Order
-            </h3>
-
-            <div style={{
-              padding: "1.5rem",
-              background: "linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(236, 72, 153, 0.05))",
-              borderRadius: "0.5rem",
-              borderLeft: "4px solid #7c3aed",
-              marginBottom: "1.5rem"
-            }}>
-              <p style={{ margin: "0.5rem 0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <strong style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  <FiMapPin size={16} /> Shipping to:
-                </strong><br/>
-                {address}, {city} {postalCode}<br/>
-                {country}
-              </p>
-              <p style={{ margin: "0.75rem 0 0 0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <strong>Payment:</strong> {paymentMethod === "COD" ? "Cash on Delivery" : "Online Payment"}
-              </p>
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+              <div className="rounded-xl bg-amber-400/10 p-2 text-amber-300"><FiCheckCircle size={20} /></div>
+              <h3 className="text-xl font-bold text-slate-100">Review Order</h3>
             </div>
 
-            <div style={{
-              padding: "1rem",
-              background: "#fff3cd",
-              border: "1px solid #ffc107",
-              borderRadius: "0.5rem",
-              color: "#856404",
-              fontSize: "0.9rem",
-              marginBottom: "1rem"
-            }}>
-              Please verify your information before placing the order
+            <div className="mb-6 rounded-2xl border border-white/10 bg-slate-800/60 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Shipping To</span>
+                <button type="button" onClick={() => setStep(1)} className="text-sm font-semibold text-violet-300 hover:text-violet-200">Edit</button>
+              </div>
+              <p className="font-medium leading-7 text-slate-100">
+                {address}<br/>{city}, {postalCode}<br/>{country}
+              </p>
+
+              <div className="my-5 border-t border-white/10" />
+
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Payment Method</span>
+                <button type="button" onClick={() => setStep(2)} className="text-sm font-semibold text-violet-300 hover:text-violet-200">Edit</button>
+              </div>
+              <p className="flex items-center gap-2 font-medium text-slate-100">
+                {paymentMethod === "COD" ? <><FiBox className="text-violet-300" /> Cash on Delivery</> : <><FiCreditCard className="text-emerald-300" /> Online Payment</>}
+              </p>
             </div>
-          </>
+          </div>
         )}
 
-        {/* BUTTONS */}
-        <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
+        <div className="mt-8 flex gap-4 border-t border-white/10 pt-6">
           {step > 1 && (
-            <button 
-              type="button" 
-              className="btn-dark" 
-              onClick={() => setStep(step - 1)}
-              style={{ flex: 1 }}
-            >
-              <FiArrowLeft size={16} style={{marginRight: "0.25rem"}}/> Back
+            <button type="button" onClick={() => setStep(step - 1)} className="inline-flex w-[120px] items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">
+              <FiArrowLeft size={16} /> Back
             </button>
           )}
 
-          <button 
-            type="submit" 
-            className="btn-primary" 
-            disabled={loading}
-            style={{ flex: 1 }}
-          >
-            {loading ? "Processing..." : step === 3 ? "Place Order" : "Next"}
+          <button type="submit" disabled={loading} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0">
+            {loading ? (
+              <span className="inline-flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" /> Processing...</span>
+            ) : step === 3 ? "Place Order" : "Continue"}
           </button>
         </div>
-
-        <button 
-          type="button" 
-          className="btn-dark" 
-          onClick={() => navigate("/cart")}
-          style={{ width: "100%", marginTop: "0.75rem", opacity: 0.7 }}
-        >
-          <FiShoppingCart size={16} style={{marginRight: "0.25rem"}}/> Back to Cart
-        </button>
-
       </form>
     </div>
   );

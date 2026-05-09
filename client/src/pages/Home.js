@@ -1,12 +1,42 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import API from "../services/api";
-import { FiFilter, FiShoppingCart, FiHeart, FiAlertCircle, FiTruck, FiStar, FiCheckCircle, FiSmartphone, FiShoppingBag, FiHome, FiActivity, FiBook, FiGift, FiPackage } from "react-icons/fi";
+import {
+  FiFilter,
+  FiShoppingCart,
+  FiHeart,
+  FiAlertCircle,
+  FiTruck,
+  FiStar,
+  FiCheckCircle,
+  FiSmartphone,
+  FiShoppingBag,
+  FiHome,
+  FiActivity,
+  FiBook,
+  FiGift,
+  FiPackage,
+  FiSearch,
+  FiX,
+  FiShield
+} from "react-icons/fi";
+
+const categories = [
+  { id: 1, name: "Electronics", Icon: FiSmartphone },
+  { id: 2, name: "Fashion", Icon: FiShoppingBag },
+  { id: 3, name: "Home", Icon: FiHome },
+  { id: 4, name: "Sports", Icon: FiActivity },
+  { id: 5, name: "Books", Icon: FiBook },
+  { id: 6, name: "Beauty", Icon: FiGift }
+];
 
 function Home() {
-
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(10000);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [accessError, setAccessError] = useState(location.state?.error || null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,16 +67,6 @@ function Home() {
     }
   };
 
-  const categories = [
-    { id: 1, name: "Electronics", emoji: "📱" },
-    { id: 2, name: "Fashion", emoji: "👔" },
-    { id: 3, name: "Home", emoji: "🏠" },
-    { id: 4, name: "Sports", emoji: "⚽" },
-    { id: 5, name: "Books", emoji: "📚" },
-    { id: 6, name: "Beauty", emoji: "💄" }
-  ];
-
-  // Mock vendor data
   const getVendorInfo = (index) => {
     const vendors = ["TechStore", "StyleHub", "HomeDecor", "SportsPro", "BookWorld", "BeautyPlus"];
     return {
@@ -56,193 +76,253 @@ function Home() {
     };
   };
 
-  const filteredProducts = products.filter(p => {
-    const priceMatch = p.price <= priceRange;
-    return priceMatch;
+  const filteredProducts = products.filter((product) => {
+    const priceMatch = Number(product.price) <= priceRange;
+    const searchText = searchQuery.toLowerCase();
+    const productName = product.name?.toLowerCase() || "";
+    const productDescription = product.description?.toLowerCase() || "";
+    const searchMatch = productName.includes(searchText) || productDescription.includes(searchText);
+    return priceMatch && searchMatch;
   });
 
   if (loading) {
-    return <div className="page-container loading" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>⟳</div>
-        Loading products...
+    return (
+      <div className="flex min-h-[calc(100vh-60px)] items-center justify-center bg-[#0a0b0f] px-4 text-slate-100">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-violet-500/20 border-t-violet-500" />
+          <span className="text-sm font-medium text-slate-300">Loading products...</span>
+        </div>
       </div>
-    </div>;
+    );
   }
 
   return (
-    <div className="page-container">
-      {/* HERO SECTION */}
-      <div className="hero-section">
-        <h1>Welcome to AccessoryHub</h1>
-        <p>Discover the best accessories from trusted vendors worldwide</p>
-      </div>
-
-      {/* CATEGORIES SECTION */}
-      <div className="categories-section">
-        <h2 style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <FiFilter /> Shop by Category
-        </h2>
-        <div className="categories-grid">
-          {categories.map((cat) => {
-            const getIcon = () => {
-              switch(cat.id) {
-                case 1: return <FiSmartphone size={28} />;
-                case 2: return <FiShoppingBag size={28} />;
-                case 3: return <FiHome size={28} />;
-                case 4: return <FiActivity size={28} />;
-                case 5: return <FiBook size={28} />;
-                case 6: return <FiGift size={28} />;
-                default: return <FiShoppingCart size={28} />;
-              }
-            };
-            return (
-              <div 
-                key={cat.id} 
-                className="category-card"
-              >
-                <div className="emoji" style={{fontSize: "1.5rem", display: "flex", alignItems: "center", justifyContent: "center"}}>{getIcon()}</div>
-                <h3>{cat.name}</h3>
-              </div>
-            );
-          })}
+    <div className="mx-auto min-h-[calc(100vh-60px)] max-w-[1400px] px-3 py-4 text-slate-100 sm:px-6 lg:px-8">
+      {accessError && (
+        <div className="mb-6 flex items-start justify-between gap-4 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-4 shadow-lg backdrop-blur">
+          <div className="flex items-start gap-3">
+            <FiShield size={20} className="mt-0.5 shrink-0 text-red-400" />
+            <div>
+              <p className="mb-1 text-sm font-bold text-red-400">Access Restricted</p>
+              <p className="text-sm text-slate-300">{accessError}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setAccessError(null)}
+            className="shrink-0 rounded-full p-1 text-slate-400 transition hover:bg-white/10 hover:text-white"
+            aria-label="Dismiss"
+          >
+            <FiX size={18} />
+          </button>
         </div>
-      </div>
+      )}
 
-      {/* PRODUCTS WITH FILTERS */}
-      <div className="filters-container">
-        {/* FILTERS SIDEBAR */}
-        <div className="filters-sidebar">
-          <div className="filter-group">
-            <h3 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <span style={{ marginRight: "0.25rem" }}>Price Range</span>
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,#1a0533_0%,#0f172a_40%,#0a1628_100%)] px-6 py-16 text-center shadow-2xl sm:px-10">
+        <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-violet-500/20 blur-3xl" />
+        <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
+        <div className="relative z-10 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-200">
+          🔥 Top Selling Accessories
+        </div>
+        <h1 className="relative z-10 mt-6 bg-gradient-to-r from-white via-violet-100 to-violet-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl lg:text-5xl">
+          Welcome to AccessoryHub
+        </h1>
+        <p className="relative z-10 mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+          Discover the best accessories from trusted vendors worldwide. Premium quality, guaranteed satisfaction, and fast delivery.
+        </p>
+        <button className="relative z-10 mt-8 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:-translate-y-0.5 hover:shadow-violet-500/50">
+          Shop Now
+        </button>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="mb-5 text-xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+          Shop by Category
+        </h2>
+        <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {categories.map(({ id, name, Icon }) => (
+            <div key={id} className="group min-w-[130px] shrink-0 rounded-2xl border border-white/10 bg-white/5 p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:border-violet-500/50 hover:bg-violet-500/10 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)]">
+              <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
+                <Icon size={28} />
+              </div>
+              <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">{name}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-10 flex flex-col gap-8 lg:flex-row">
+        <aside className="h-fit w-full rounded-2xl border border-white/10 bg-slate-900/80 p-6 backdrop-blur lg:sticky lg:top-20 lg:w-64">
+          <div className="border-b border-white/10 pb-5">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+              <FiSearch size={16} /> Search
             </h3>
-            <input 
-              type="range" 
-              min="0" 
-              max="10000" 
-              value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
-              style={{ width: "100%" }}
-            />
-            <p style={{ marginTop: "0.75rem", marginBottom: 0, color: "#7c3aed", fontWeight: 600 }}>
-              Max: ৳ {parseInt(priceRange).toLocaleString()}
-            </p>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+              />
+              <FiSearch className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            </div>
           </div>
 
-          <div className="filter-group">
-            <h3 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <FiStar size={18} /> Rating
+          <div className="border-b border-white/10 py-5">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+              <FiFilter size={16} /> Price Range
+            </h3>
+            <input
+              type="range"
+              min="0"
+              max="10000"
+              value={priceRange}
+              onChange={(e) => setPriceRange(Number(e.target.value))}
+              className="w-full accent-violet-500"
+            />
+            <div className="mt-2 flex items-center justify-between text-xs">
+              <span className="text-slate-500">৳ 0</span>
+              <span className="font-semibold text-violet-300">Max: ৳ {Number(priceRange).toLocaleString()}</span>
+            </div>
+          </div>
+
+          <div className="border-b border-white/10 py-5">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+              <FiStar size={16} /> Rating
             </h3>
             {[5, 4, 3, 2, 1].map((rating) => (
-              <div key={rating} className="filter-option">
-                <input type="checkbox" id={`rating-${rating}`} />
-                <label htmlFor={`rating-${rating}`}>{rating} stars & up</label>
-              </div>
+              <label key={rating} htmlFor={`rating-${rating}`} className="mb-2 flex cursor-pointer items-center gap-3 text-sm text-slate-400 last:mb-0">
+                <input type="checkbox" id={`rating-${rating}`} className="h-4 w-4 cursor-pointer accent-violet-500" />
+                <span className="text-amber-400">
+                  {Array(5).fill(0).map((_, i) => (
+                    <span key={i} className={i < rating ? "opacity-100" : "opacity-30"}>
+                      ★
+                    </span>
+                  ))}
+                </span>
+                <span>&amp; up</span>
+              </label>
             ))}
           </div>
 
-          <div className="filter-group">
-            <h3 style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <FiTruck size={18} /> Delivery
+          <div className="pt-5">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+              <FiTruck size={16} /> Delivery
             </h3>
-            <div className="filter-option">
-              <input type="checkbox" id="free-shipping" defaultChecked />
-              <label htmlFor="free-shipping">Free Shipping</label>
-            </div>
-            <div className="filter-option">
-              <input type="checkbox" id="express-delivery" />
-              <label htmlFor="express-delivery">Express Delivery</label>
-            </div>
+            <label htmlFor="free-shipping" className="mb-2 flex cursor-pointer items-center gap-3 text-sm text-slate-400">
+              <input type="checkbox" id="free-shipping" defaultChecked className="h-4 w-4 cursor-pointer accent-violet-500" />
+              <span>Free Shipping</span>
+            </label>
+            <label htmlFor="express-delivery" className="flex cursor-pointer items-center gap-3 text-sm text-slate-400">
+              <input type="checkbox" id="express-delivery" className="h-4 w-4 cursor-pointer accent-violet-500" />
+              <span>Express Delivery</span>
+            </label>
           </div>
-        </div>
+        </aside>
 
-        {/* PRODUCTS CONTAINER */}
-        <div className="products-container">
-          <h2 style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            All Products ({filteredProducts.length})
-          </h2>
+        <div className="flex-1">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="!m-0 text-2xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+              Products <span className="ml-2 text-sm font-normal text-slate-400">({filteredProducts.length} items)</span>
+            </h2>
+            <select className="w-full rounded-full border border-white/10 bg-slate-900 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 sm:w-auto">
+              <option>Sort by: Featured</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest Arrivals</option>
+            </select>
+          </div>
 
           {filteredProducts.length === 0 ? (
-            <div className="empty-state">
-              <h2>No products available</h2>
-              <p>Try adjusting your filters or browse other categories</p>
+            <div className="rounded-2xl border border-white/10 bg-slate-900/80 px-6 py-16 text-center text-slate-400 shadow-lg">
+              <FiSearch size={48} className="mx-auto mb-4 text-slate-500" />
+              <h2 className="mb-2 text-2xl font-bold text-slate-100">No products found</h2>
+              <p className="mb-6 text-sm text-slate-400">Try adjusting your search or filters</p>
+              <button
+                className="inline-flex items-center justify-center rounded-full bg-slate-800 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:bg-slate-700 hover:text-white"
+                onClick={() => {
+                  setPriceRange(10000);
+                  setSearchQuery("");
+                }}
+              >
+                Clear Filters
+              </button>
             </div>
           ) : (
-            <div className="products-grid">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {filteredProducts.map((product, index) => {
                 const vendor = getVendorInfo(index);
                 const discount = Math.floor(Math.random() * 40) + 5;
                 const originalPrice = Math.floor(product.price / (1 - discount / 100));
 
                 return (
-                  <div key={product._id} className="product-card">
-                    {/* IMAGE */}
-                    <div className="product-image">
+                  <div key={product._id} className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]">
+                    <div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                       {product.image ? (
-                        <img src={product.image} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
                       ) : (
-                        <FiPackage size={48} style={{color: "#7c3aed"}} />
+                        <FiPackage size={48} className="text-violet-300/50" />
                       )}
-                      {discount > 0 && <div className="product-badge discount">-{discount}%</div>}
+
+                      {discount > 0 && (
+                        <div className="absolute right-3 top-3 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1 text-xs font-bold text-slate-950">
+                          -{discount}%
+                        </div>
+                      )}
                     </div>
 
-                    {/* INFO */}
-                    <div className="product-info">
-                      {/* VENDOR */}
-                      <div className="product-vendor">
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-500">
                         <span>{vendor.name}</span>
-                        <span className="product-vendor-badge"><FiCheckCircle size={14} style={{marginRight: "0.25rem"}}/> Verified</span>
+                        <span className="inline-flex items-center rounded-full bg-violet-500/15 px-2 py-1 font-semibold text-violet-200">
+                          <FiCheckCircle size={10} className="mr-1" /> Verified
+                        </span>
                       </div>
 
-                      {/* PRODUCT NAME */}
-                      <h3 className="product-name">{product.name}</h3>
+                      <h3 className="mb-2 min-h-[2.8rem] text-base font-semibold leading-7 text-slate-100" title={product.name}>
+                        {product.name}
+                      </h3>
 
-                      {/* RATING */}
-                      <div className="product-rating">
-                        <span className="rating-stars"><FiStar size={16} style={{display: "inline", marginRight: "0.25rem"}} /> {vendor.rating}</span>
-                        <span className="rating-count">({vendor.reviews})</span>
+                      <div className="mb-4 flex items-center gap-2 text-sm">
+                        <span className="inline-flex items-center text-amber-400">
+                          <FiStar size={12} className="mr-1 fill-current" /> {vendor.rating}
+                        </span>
+                        <span className="text-xs text-slate-500">({vendor.reviews} reviews)</span>
                       </div>
 
-                      {/* PRICE */}
-                      <div className="product-price-section">
-                        <div className="product-price">
-                          <span className="price-current">৳ {product.price}</span>
-                          {discount > 0 && <span className="price-original">৳ {originalPrice}</span>}
-                          {discount > 0 && <span className="price-discount">{discount}% OFF</span>}
-                        </div>
+                      <div className="mb-3 flex items-center gap-3">
+                        <span className="text-xl font-extrabold text-emerald-400">৳ {Number(product.price).toLocaleString()}</span>
+                        {discount > 0 && <span className="text-sm text-slate-500 line-through">৳ {originalPrice.toLocaleString()}</span>}
                       </div>
 
-                      {/* DELIVERY */}
-                      <div className="product-delivery">
-                        <FiTruck size={16} style={{display: "inline", marginRight: "0.25rem"}} />
-                        <span className="delivery-badge">FREE SHIPPING</span>
+                      <div className="mb-3 inline-flex items-center rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-300">
+                        <FiTruck size={12} className="mr-1" /> Free Shipping
                       </div>
 
-                      {/* STOCK */}
-                      <div className={`product-stock ${product.stock <= 5 ? "low" : ""}`}>
+                      <div className={`mb-5 text-sm ${product.stock <= 5 ? "text-red-400" : "text-slate-400"}`}>
                         {product.stock > 0 ? (
-                          <>
-                            {product.stock <= 5 && <FiAlertCircle size={14} style={{display: "inline", marginRight: "0.25rem"}} />} 
+                          <span className="inline-flex items-center gap-2">
+                            {product.stock <= 5 ? <FiAlertCircle size={12} /> : <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />}
                             {product.stock} in stock
-                          </>
+                          </span>
                         ) : (
-                          "Out of stock"
+                          <span>Out of stock</span>
                         )}
                       </div>
 
-                      {/* ACTIONS */}
-                      <div className="product-actions">
+                      <div className="mt-auto flex gap-3">
                         <button
                           onClick={() => addToCart(product._id)}
-                          className="btn-cart"
+                          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
                           disabled={product.stock === 0}
-                          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}
                         >
-                          <FiShoppingCart size={18} /> Add
+                          <FiShoppingCart size={16} /> Add
                         </button>
-                        <button className="btn-wishlist" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-                          <FiHeart size={18} /> Wish
+                        <button
+                          className="inline-flex w-11 items-center justify-center rounded-xl border border-pink-500/20 bg-slate-800 text-pink-400 transition hover:-translate-y-0.5 hover:bg-pink-500/10 hover:text-pink-300"
+                          title="Add to Wishlist"
+                        >
+                          <FiHeart size={16} />
                         </button>
                       </div>
                     </div>
@@ -252,7 +332,7 @@ function Home() {
             </div>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
