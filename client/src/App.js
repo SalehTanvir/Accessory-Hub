@@ -7,9 +7,12 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
 import VendorDashboard from "./pages/VendorDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import VendorRoute from "./components/VendorRoute";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -32,7 +35,12 @@ function App() {
         {/* Vendor-only Route */}
         <Route path="/vendor" element={<VendorRoute><VendorDashboard /></VendorRoute>} />
 
+        {/* Admin-only Route */}
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+
       </Routes>
+
+      <Footer />
 
     </Router>
   );

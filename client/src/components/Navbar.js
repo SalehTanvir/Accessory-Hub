@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import {
   FiShoppingCart, FiPackage, FiTrendingUp,
-  FiLogOut, FiLogIn, FiUserPlus, FiUser, FiZap,
+  FiLogOut, FiLogIn, FiUserPlus, FiUser, FiZap, FiActivity,
 } from "react-icons/fi";
 
 function Navbar() {
@@ -47,6 +47,12 @@ function Navbar() {
             {user?.role === 'vendor' && (
               <Link to="/vendor" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition border ${isActive('/vendor') ? 'border-emerald-300 bg-emerald-300/10 text-emerald-300' : 'border-emerald-600/20 text-emerald-300 hover:bg-emerald-300/6'}`}>
                 <FiTrendingUp size={16} /> Vendor
+              </Link>
+            )}
+
+            {user?.role === 'admin' && (
+              <Link to="/admin" className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition border ${isActive('/admin') ? 'border-violet-300 bg-violet-500/10 text-violet-300' : 'border-violet-600/20 text-violet-300 hover:bg-violet-300/6'}`}>
+                <FiActivity size={16} /> Admin
               </Link>
             )}
           </div>

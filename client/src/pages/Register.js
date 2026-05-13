@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import API from "../services/api";
 import { useNavigate, Link } from "react-router-dom";
 import {
   FiUser,
@@ -26,11 +26,12 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/auth/register", { name, email, password, role });
+      await API.post("/auth/register", { name, email, password, role });
+      alert("Account created! Please sign in.");
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Registration failed. Try again");
+      alert(err.response?.data?.message || "Registration failed. Try again.");
     } finally {
       setLoading(false);
     }
