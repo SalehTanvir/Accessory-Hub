@@ -10,6 +10,7 @@ exports.createProduct = async (req, res) => {
       price: req.body.price,
       category: req.body.category,
       stock: req.body.stock,
+      image: req.body.image,
       vendor: req.user.id
     });
 

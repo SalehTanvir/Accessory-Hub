@@ -9,6 +9,8 @@ const {
   deleteUser
 } = require("../controllers/userController");
 
+const { getStats } = require("../controllers/adminController");
+
 const {
   getAllProductsAdmin,
   deleteProductAdmin
@@ -18,6 +20,9 @@ const {
   getAllOrders
 } = require("../controllers/orderController");
 
+
+// STATS
+router.get("/stats", protect, adminOnly, getStats);
 
 // USERS
 router.get("/users", protect, adminOnly, getAllUsers);
