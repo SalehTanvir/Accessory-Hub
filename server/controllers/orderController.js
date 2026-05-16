@@ -111,3 +111,28 @@ exports.getAllOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// GET SINGLE ORDER BY ID (for invoice)
+exports.getOrderById = async (req, res) => {
+  try {
+
+    const order = await Order.findById(req.params.id)
+      .populate("orderItems.product", "name price image")
+      .populate("user", "name email");
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Ensure the user can only view their own orders
+    if (order.user._id.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to view this order" });
+    }
+
+    res.status(200).json(order);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
