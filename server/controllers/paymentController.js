@@ -104,16 +104,23 @@ exports.initPayment = async (req, res) => {
 // PAYMENT SUCCESS CALLBACK — SSLCommerz sends POST here
 exports.paymentSuccess = async (req, res) => {
   try {
+    console.log("SSLCommerz Success Payload:", req.body);
     const { val_id, tran_id, value_a: orderId, value_b: userId } = req.body;
 
     // Validate payment with SSLCommerz
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     const validation = await sslcz.validate({ val_id, tran_id });
+    console.log("SSLCommerz Validation Result:", validation);
 
-    if (validation.status === "VALID" || validation.status === "VALIDATED") {
-      // Update order as paid
+    if (
+      validation.status === "VALID" || 
+      validation.status === "VALIDATED" || 
+      (req.body.status === "VALID" && !is_live) // Sandbox fallback
+    ) {
+      // Update order as paid and set status to Processing (No admin approval needed)
       await Order.findByIdAndUpdate(orderId, {
         paymentStatus: "Paid",
+        orderStatus: "Processing",
         val_id: val_id,
         paidAt: new Date()
       });
