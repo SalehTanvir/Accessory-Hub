@@ -8,6 +8,9 @@ import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
 import VendorDashboard from "./pages/VendorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFail from "./pages/PaymentFail";
+import PaymentCancel from "./pages/PaymentCancel";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
@@ -31,6 +34,11 @@ function App() {
         <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
         <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
         <Route path="/my-orders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
+
+        {/* Payment Result Pages — public (redirected from SSLCommerz) */}
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/fail" element={<PaymentFail />} />
+        <Route path="/payment/cancel" element={<PaymentCancel />} />
 
         {/* Vendor-only Route */}
         <Route path="/vendor" element={<VendorRoute><VendorDashboard /></VendorRoute>} />

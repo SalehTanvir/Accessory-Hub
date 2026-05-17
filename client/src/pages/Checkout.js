@@ -18,11 +18,29 @@ function Checkout() {
     setLoading(true);
 
     try {
-      await API.post("/orders", {
+      const shippingData = {
         shippingAddress: { address, city, postalCode, country },
         paymentMethod
-      });
-      navigate("/my-orders");
+      };
+
+      if (paymentMethod === "Online") {
+        // SSLCommerz online payment flow
+        const res = await API.post("/payment/init", {
+          shippingAddress: { address, city, postalCode, country }
+        });
+
+        if (res.data?.url) {
+          // Redirect to SSLCommerz payment gateway
+          window.location.href = res.data.url;
+          return;
+        } else {
+          alert("Failed to initialize payment gateway. Please try again.");
+        }
+      } else {
+        // COD flow — existing behavior
+        await API.post("/orders", shippingData);
+        navigate("/my-orders");
+      }
     } catch (error) {
       console.error("Order error:", error);
       alert("Failed to place order");

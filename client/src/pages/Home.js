@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import API from "../services/api";
 import {
   FiFilter,
@@ -32,6 +32,7 @@ const categories = [
 
 function Home() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(10000);
@@ -60,7 +61,8 @@ function Home() {
         quantity: 1
       });
 
-      alert("Product added to cart");
+      // Directly navigate to cart after adding
+      navigate("/cart");
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Please login first");

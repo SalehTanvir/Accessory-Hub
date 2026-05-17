@@ -23,6 +23,15 @@ function Cart() {
     fetchCart();
   }, []);
 
+  const updateQuantity = async (productId, newQuantity) => {
+    try {
+      await API.put("/cart/update", { productId, quantity: newQuantity });
+      fetchCart();
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
+
   const removeItem = async (productId) => {
     try {
       await API.delete("/cart/remove", { data: { productId } });
@@ -117,9 +126,21 @@ function Cart() {
 
                       <div className="flex items-end justify-between gap-4">
                         <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-slate-800 px-3 py-2">
-                          <button type="button" className="rounded-md p-1 text-slate-400 transition hover:bg-white/5 hover:text-white"><FiMinus size={14} /></button>
+                          <button 
+                            type="button" 
+                            onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                            className="rounded-md p-1 text-slate-400 transition hover:bg-white/5 hover:text-white"
+                          >
+                            <FiMinus size={14} />
+                          </button>
                           <span className="min-w-5 text-center text-sm font-semibold text-slate-100">{item.quantity}</span>
-                          <button type="button" className="rounded-md p-1 text-slate-100 transition hover:bg-white/5"><FiPlus size={14} /></button>
+                          <button 
+                            type="button" 
+                            onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                            className="rounded-md p-1 text-slate-100 transition hover:bg-white/5"
+                          >
+                            <FiPlus size={14} />
+                          </button>
                         </div>
 
                         <button

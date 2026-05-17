@@ -102,10 +102,16 @@ function MyOrders() {
 
               <div className={`${isExpanded ? "max-h-[1200px] border-t border-white/10" : "max-h-0 border-t border-transparent"} overflow-hidden transition-all duration-500`}>
                 <div className="space-y-6 bg-slate-950/40 p-5">
-                  <div className="grid gap-4 md:grid-cols-3">
+                  <div className="grid gap-4 md:grid-cols-4">
                     <div className="rounded-2xl border border-white/10 bg-slate-800/70 p-4">
                       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Payment Method</p>
                       <p className="font-medium text-slate-100">{order.paymentMethod === "COD" ? "Cash on Delivery" : "Online Payment"}</p>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-slate-800/70 p-4">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Payment Status</p>
+                      <p className={`font-medium ${order.paymentStatus === "Paid" ? "text-emerald-400" : order.paymentStatus === "Failed" ? "text-red-400" : order.paymentStatus === "Cancelled" ? "text-amber-400" : "text-slate-300"}`}>
+                        {order.paymentStatus || (order.paymentMethod === "COD" ? "Pay on Delivery" : "Unpaid")}
+                      </p>
                     </div>
                     <div className="rounded-2xl border border-white/10 bg-slate-800/70 p-4">
                       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Total Items</p>
