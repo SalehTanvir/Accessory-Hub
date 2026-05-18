@@ -23,6 +23,15 @@ function Cart() {
     fetchCart();
   }, []);
 
+  // Ensure the page is scrolled to top when the Cart page mounts
+  useEffect(() => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    } catch (err) {
+      // fail silently in non-browser environments
+    }
+  }, []);
+
   const updateQuantity = async (productId, newQuantity) => {
     try {
       await API.put("/cart/update", { productId, quantity: newQuantity });

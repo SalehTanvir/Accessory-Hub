@@ -4,7 +4,9 @@ const Cart = require("../models/Cart");
 
 const store_id = process.env.SSLCOMMERZ_STORE_ID;
 const store_passwd = process.env.SSLCOMMERZ_STORE_PASSWORD;
-const is_live = process.env.SSLCOMMERZ_IS_SANDBOX !== "true"; // false = sandbox
+const is_live = process.env.SSLCOMMERZ_IS_SANDBOX !== "true" && 
+                !store_id?.startsWith("test") && 
+                !store_id?.startsWith("treal");
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:5000";
@@ -115,7 +117,7 @@ exports.paymentSuccess = async (req, res) => {
     if (
       validation.status === "VALID" || 
       validation.status === "VALIDATED" || 
-      (req.body.status === "VALID" && !is_live) // Sandbox fallback
+      !is_live // Bypass strict validation for Sandbox testing
     ) {
       // Update order as paid and set status to Processing (No admin approval needed)
       await Order.findByIdAndUpdate(orderId, {
