@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { resolveImageUrl } from "../services/imageUrl";
 import {
   FiFilter,
   FiShoppingCart,
@@ -261,7 +262,7 @@ function Home() {
                   <div key={product._id} className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]">
                     <div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                       {product.image ? (
-                        <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
+                        <img src={resolveImageUrl(product.image)} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
                       ) : (
                         <FiPackage size={48} className="text-violet-300/50" />
                       )}

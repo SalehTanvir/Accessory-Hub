@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
+import { resolveImageUrl } from "../services/imageUrl";
 import { useNavigate } from "react-router-dom";
 import { FiTrash2, FiShoppingCart, FiHome, FiLock, FiTruck, FiMinus, FiPlus, FiBox, FiCheckCircle, FiArrowRight } from "react-icons/fi";
 
@@ -118,7 +119,7 @@ function Cart() {
                   <div key={item._id} className="flex flex-col gap-5 bg-slate-900 p-5 md:flex-row md:items-center">
                     <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-slate-800">
                       {item.product?.image ? (
-                        <img src={item.product.image} alt={item.product.name} className="h-full w-full object-cover" />
+                        <img src={resolveImageUrl(item.product.image)} alt={item.product.name} className="h-full w-full object-cover" />
                       ) : (
                         <FiShoppingCart size={24} className="text-slate-500" />
                       )}

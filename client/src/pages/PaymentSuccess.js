@@ -4,6 +4,7 @@ import { FiCheckCircle, FiShoppingBag, FiPackage, FiArrowRight, FiDownload, FiMa
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import API from "../services/api";
+import { resolveImageUrl } from "../services/imageUrl";
 
 function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -256,7 +257,7 @@ function PaymentSuccess() {
                       <td className="px-6 py-6">
                         <div className="flex items-center gap-4">
                           {item.product?.image && (
-                            <img src={item.product.image} alt="" className="h-12 w-12 rounded-xl object-cover print:hidden" />
+                            <img src={resolveImageUrl(item.product.image)} alt="" className="h-12 w-12 rounded-xl object-cover print:hidden" />
                           )}
                           <div>
                             <p className="font-bold text-slate-100 print:text-black">{item.product?.name || "Product"}</p>

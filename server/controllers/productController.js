@@ -1,8 +1,46 @@
 const Product = require("../models/Product");
+const cloudinary = require("../utils/cloudinary");
+
+const uploadImageToCloudinary = (file) =>
+  new Promise((resolve, reject) => {
+    if (!file) {
+      return resolve(null);
+    }
+
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "AccessoryHub/products",
+        resource_type: "image"
+      },
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+
+        resolve(result);
+      }
+    );
+
+    stream.end(file.buffer);
+  });
+
+const deleteImageFromCloudinary = async (publicId) => {
+  if (!publicId) {
+    return;
+  }
+
+  await cloudinary.uploader.destroy(publicId, {
+    resource_type: "image"
+  });
+};
 
 // CREATE PRODUCT
 exports.createProduct = async (req, res) => {
+  let uploadedImage = null;
+
   try {
+    uploadedImage = await uploadImageToCloudinary(req.file);
+    const image = uploadedImage?.secure_url || req.body.image;
 
     const product = new Product({
       name: req.body.name,
@@ -10,7 +48,8 @@ exports.createProduct = async (req, res) => {
       price: req.body.price,
       category: req.body.category,
       stock: req.body.stock,
-      image: req.body.image,
+      image,
+      imagePublicId: uploadedImage?.public_id || null,
       vendor: req.user.id
     });
 
@@ -19,6 +58,14 @@ exports.createProduct = async (req, res) => {
     res.status(201).json(savedProduct);
 
   } catch (error) {
+    if (uploadedImage?.public_id) {
+      try {
+        await deleteImageFromCloudinary(uploadedImage.public_id);
+      } catch (cleanupError) {
+        console.error("Cloudinary cleanup failed after product create error:", cleanupError.message);
+      }
+    }
+
     res.status(500).json({ message: error.message });
   }
 };
@@ -58,6 +105,8 @@ exports.getProductById = async (req, res) => {
 
 // UPDATE PRODUCT
 exports.updateProduct = async (req, res) => {
+  let uploadedImage = null;
+
   try {
 
     const product = await Product.findById(req.params.id);
@@ -70,15 +119,43 @@ exports.updateProduct = async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const isReplacingImage = Boolean(req.file) || Object.prototype.hasOwnProperty.call(req.body, "image");
+
+    if (req.file) {
+      uploadedImage = await uploadImageToCloudinary(req.file);
+    }
+
+    const updateData = {
+      ...req.body,
+      ...(uploadedImage?.secure_url ? { image: uploadedImage.secure_url, imagePublicId: uploadedImage.public_id } : {}),
+      ...(isReplacingImage && !req.file && Object.prototype.hasOwnProperty.call(req.body, "image")
+        ? { imagePublicId: null }
+        : {})
+    };
+
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updateData, {
+      new: true
+    });
+
+    if (product.imagePublicId && isReplacingImage) {
+      try {
+        await deleteImageFromCloudinary(product.imagePublicId);
+      } catch (cleanupError) {
+        console.error("Cloudinary cleanup failed after product update:", cleanupError.message);
+      }
+    }
 
     res.json(updatedProduct);
 
   } catch (error) {
+    if (uploadedImage?.public_id) {
+      try {
+        await deleteImageFromCloudinary(uploadedImage.public_id);
+      } catch (cleanupError) {
+        console.error("Cloudinary cleanup failed after failed product update:", cleanupError.message);
+      }
+    }
+
     res.status(500).json({ message: error.message });
   }
 };
@@ -100,6 +177,12 @@ exports.deleteProduct = async (req, res) => {
     }
 
     await product.deleteOne();
+
+    if (product.imagePublicId) {
+      deleteImageFromCloudinary(product.imagePublicId).catch((cleanupError) => {
+        console.error("Cloudinary cleanup failed after product delete:", cleanupError.message);
+      });
+    }
 
     res.json({ message: "Product deleted successfully" });
 
@@ -171,6 +254,12 @@ exports.deleteProductAdmin = async (req, res) => {
     }
 
     await product.deleteOne();
+
+    if (product.imagePublicId) {
+      deleteImageFromCloudinary(product.imagePublicId).catch((cleanupError) => {
+        console.error("Cloudinary cleanup failed after admin product delete:", cleanupError.message);
+      });
+    }
 
     res.json({ message: "Product deleted" });
 

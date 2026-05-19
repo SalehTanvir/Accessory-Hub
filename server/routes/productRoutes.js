@@ -12,6 +12,7 @@ const {
 } = require("../controllers/productController");
 
 const { protect, authorizeRoles } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 
 // =========================
@@ -29,11 +30,11 @@ router.get("/admin", protect, authorizeRoles("admin"), getAllProductsAdmin);
 // =========================
 // VENDOR ROUTES
 // =========================
-router.post("/", protect, authorizeRoles("vendor"), createProduct);
+router.post("/", protect, authorizeRoles("vendor"), upload.single("image"), createProduct);
 
 router.get("/vendor", protect, authorizeRoles("vendor"), getVendorProducts);
 
-router.put("/:id", protect, authorizeRoles("vendor"), updateProduct);
+router.put("/:id", protect, authorizeRoles("vendor"), upload.single("image"), updateProduct);
 
 router.delete("/:id", protect, authorizeRoles("vendor"), deleteProduct);
 

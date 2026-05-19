@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API from "../services/api";
+import { resolveImageUrl } from "../services/imageUrl";
 import { 
   FiUsers, FiPackage, FiShoppingCart, FiDollarSign, 
   FiTrash2, FiActivity, FiRefreshCw, FiCheck 
@@ -184,7 +185,7 @@ function AdminDashboard() {
             <div className="divide-y divide-white/10">
               {products.map(product => (
                 <div key={product._id} className="grid grid-cols-[80px_2fr_1fr_1fr_1fr_100px] gap-6 px-6 py-4 items-center">
-                  <img src={product.image || "https://via.placeholder.com/60"} alt={product.name} className="h-12 w-12 rounded-xl object-cover bg-slate-800" />
+                  <img src={product.image ? resolveImageUrl(product.image) : "https://via.placeholder.com/60"} alt={product.name} className="h-12 w-12 rounded-xl object-cover bg-slate-800" />
                   <div>
                     <div className="font-semibold text-slate-200">{product.name}</div>
                     <div className="text-xs text-slate-500">{product.category}</div>

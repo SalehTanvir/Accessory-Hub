@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import API from "../services/api";
+import { resolveImageUrl } from "../services/imageUrl";
 import { FiCheckCircle, FiTrash2, FiPlus, FiPackage, FiAlertTriangle, FiBox, FiDollarSign } from "react-icons/fi";
 
 function VendorDashboard() {
   const [products, setProducts] = useState([]);
   const [stats, setStats] = useState({ total: 0, outOfStock: 0, totalValue: 0 });
   const [formData, setFormData] = useState({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const imageInputRef = useRef(null);
 
   const fetchProducts = async () => {
     try {
@@ -24,13 +28,59 @@ function VendorDashboard() {
 
   useEffect(() => { fetchProducts(); }, []);
 
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreview("");
+      return undefined;
+    }
+
+    const objectUrl = URL.createObjectURL(imageFile);
+    setImagePreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [imageFile]);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+
+    if (file) {
+      setFormData((prev) => ({ ...prev, image: "" }));
+    }
+  };
+
+  const resetImageSelection = () => {
+    setImageFile(null);
+    setImagePreview("");
+
+    if (imageInputRef.current) {
+      imageInputRef.current.value = "";
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post("/products", formData);
+      const payload = new FormData();
+
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== "") {
+          payload.append(key, value);
+        }
+      });
+
+      if (imageFile) {
+        payload.append("image", imageFile);
+      }
+
+      await API.post("/products", payload, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+
       setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" });
+  resetImageSelection();
       setIsAdding(false);
       fetchProducts();
     } catch (error) {
@@ -135,12 +185,25 @@ function VendorDashboard() {
           </div>
 
           <div className="mt-4 space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Image URL</label>
-            <input name="image" placeholder="https://example.com/image.jpg" value={formData.image} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Product Image</label>
+            <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-violet-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-violet-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+            <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+              <input name="image" placeholder="Optional image URL fallback" value={formData.image} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              <span className="text-xs text-slate-500">Use either file upload or URL</span>
+            </div>
+            {(imagePreview || formData.image) && (
+              <div className="mt-2 flex items-center gap-4 rounded-2xl border border-white/10 bg-slate-950/40 p-3">
+                <img src={imagePreview || resolveImageUrl(formData.image)} alt="Preview" className="h-16 w-16 rounded-xl object-cover" />
+                <div className="text-sm text-slate-300">
+                  <div className="font-semibold text-slate-100">Image preview</div>
+                  <div className="text-xs text-slate-500">This is how the product image will appear in the catalog.</div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-6 flex justify-end gap-3 border-t border-white/10 pt-5">
-            <button type="button" onClick={() => setIsAdding(false)} className="rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">Cancel</button>
+            <button type="button" onClick={() => { setIsAdding(false); setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" }); resetImageSelection(); }} className="rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">Cancel</button>
             <button type="submit" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30"><FiCheckCircle /> Publish Product</button>
           </div>
         </form>
@@ -171,7 +234,7 @@ function VendorDashboard() {
             {products.map((p, index) => (
               <div key={p._id} className="grid gap-4 px-6 py-5 md:grid-cols-[80px_2fr_1fr_1fr_100px] md:items-center">
                 <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-slate-800">
-                  {p.image ? <img src={p.image} alt={p.name} className="h-full w-full object-cover" /> : <FiBox size={24} className="text-slate-500" />}
+                  {p.image ? <img src={resolveImageUrl(p.image)} alt={p.name} className="h-full w-full object-cover" /> : <FiBox size={24} className="text-slate-500" />}
                 </div>
 
                 <div>
