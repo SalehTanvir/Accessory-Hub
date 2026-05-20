@@ -31,6 +31,20 @@ const categories = [
   { id: 6, name: "Beauty", Icon: FiGift }
 ];
 
+const normalizeCategory = (category) => {
+  const value = (category || "").toString().trim().toLowerCase();
+
+  if (value === "home & decor" || value === "home decor") {
+    return "home";
+  }
+
+  if (value === "health & beauty" || value === "health beauty") {
+    return "beauty";
+  }
+
+  return value;
+};
+
 function Home() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,6 +52,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(10000);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [accessError, setAccessError] = useState(location.state?.error || null);
 
   useEffect(() => {
@@ -85,7 +100,8 @@ function Home() {
     const productName = product.name?.toLowerCase() || "";
     const productDescription = product.description?.toLowerCase() || "";
     const searchMatch = productName.includes(searchText) || productDescription.includes(searchText);
-    return priceMatch && searchMatch;
+    const categoryMatch = selectedCategory === "all" || normalizeCategory(product.category) === selectedCategory;
+    return priceMatch && searchMatch && categoryMatch;
   });
 
   if (loading) {
@@ -138,18 +154,59 @@ function Home() {
       </section>
 
       <section className="mt-10">
-        <h2 className="mb-5 text-xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
-          Shop by Category
-        </h2>
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <h2 className="text-xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+            Shop by Category
+          </h2>
+          {selectedCategory !== "all" && (
+            <button
+              type="button"
+              onClick={() => setSelectedCategory("all")}
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300 transition hover:border-violet-500/40 hover:bg-violet-500/10 hover:text-white"
+            >
+              Clear category
+            </button>
+          )}
+        </div>
         <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {categories.map(({ id, name, Icon }) => (
-            <div key={id} className="group min-w-[130px] shrink-0 rounded-2xl border border-white/10 bg-white/5 p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:border-violet-500/50 hover:bg-violet-500/10 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)]">
-              <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
-                <Icon size={28} />
-              </div>
-              <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">{name}</h3>
+          <button
+            type="button"
+            onClick={() => setSelectedCategory("all")}
+            className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] ${
+              selectedCategory === "all"
+                ? "border-violet-400/70 bg-violet-500/20 text-white shadow-[0_0_30px_rgba(124,58,237,0.25)]"
+                : "border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10"
+            }`}
+          >
+            <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
+              <FiPackage size={28} />
             </div>
-          ))}
+            <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">
+              All Products
+            </h3>
+          </button>
+          {categories.map(({ id, name, Icon }) => {
+            const isActive = selectedCategory === normalizeCategory(name);
+
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setSelectedCategory(normalizeCategory(name))}
+                aria-pressed={isActive}
+                className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] ${
+                  isActive
+                    ? "border-violet-400/70 bg-violet-500/20 text-white shadow-[0_0_30px_rgba(124,58,237,0.25)]"
+                    : "border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10"
+                }`}
+              >
+                <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
+                  <Icon size={28} />
+                </div>
+                <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">{name}</h3>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -246,6 +303,7 @@ function Home() {
                 onClick={() => {
                   setPriceRange(10000);
                   setSearchQuery("");
+                  setSelectedCategory("all");
                 }}
               >
                 Clear Filters
