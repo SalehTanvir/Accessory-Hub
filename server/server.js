@@ -10,6 +10,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const vendorRoutes = require("./routes/vendorRoutes");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/vendors", vendorRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");

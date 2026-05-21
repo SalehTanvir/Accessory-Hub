@@ -148,7 +148,11 @@ function Home() {
         <p className="relative z-10 mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
           Discover the best accessories from trusted vendors worldwide. Premium quality, guaranteed satisfaction, and fast delivery.
         </p>
-        <button className="relative z-10 mt-8 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:-translate-y-0.5 hover:shadow-violet-500/50">
+        <button
+          type="button"
+          onClick={() => navigate("/vendors")}
+          className="relative z-10 mt-8 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:-translate-y-0.5 hover:shadow-violet-500/50"
+        >
           Shop Now
         </button>
       </section>

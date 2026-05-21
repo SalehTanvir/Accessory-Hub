@@ -8,6 +8,7 @@ import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
 import VendorDashboard from "./pages/VendorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import Vendors from "./pages/Vendors";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFail from "./pages/PaymentFail";
 import PaymentCancel from "./pages/PaymentCancel";
@@ -27,6 +28,8 @@ function App() {
 
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/vendors" element={<Vendors />} />
+        <Route path="/vendors/:vendorId" element={<Vendors />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
