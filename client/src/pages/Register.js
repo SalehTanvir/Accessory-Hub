@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import API from "../services/api";
-import { useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   FiUser,
   FiMail,
@@ -21,6 +21,16 @@ function Register() {
   const [role, setRole] = useState("customer");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const requestedRole = params.get("role");
+
+    if (requestedRole === "vendor") {
+      setRole("vendor");
+    }
+  }, [location.search]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
