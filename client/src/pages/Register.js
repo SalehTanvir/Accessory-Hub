@@ -37,8 +37,7 @@ function Register() {
     setLoading(true);
     try {
       await API.post("/auth/register", { name, email, password, role });
-      alert("Account created! Please sign in.");
-      navigate("/login");
+      navigate("/login", { state: { successMessage: "Registered successfully. Please sign in." } });
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || "Registration failed. Try again.");

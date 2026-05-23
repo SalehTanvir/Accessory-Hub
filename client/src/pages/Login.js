@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import API from "../services/api";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   FiLogIn, FiMail, FiLock, FiZap,
   FiShoppingCart, FiStar, FiShield,
@@ -11,9 +11,20 @@ function Login() {
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading]   = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const { login }  = useContext(AuthContext);
   const navigate   = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const message = location.state?.successMessage;
+
+    if (message) {
+      setSuccessMessage(message);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.pathname, location.state, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -106,6 +117,11 @@ function Login() {
             <p className="text-sm leading-7 text-slate-400">
               Enter your credentials to access your account.
             </p>
+            {successMessage && (
+              <div className="mt-4 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-300">
+                {successMessage}
+              </div>
+            )}
           </div>
 
           {/* Fields */}
