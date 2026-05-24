@@ -10,8 +10,8 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0 }
-html { scroll-behavior: smooth }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased }
+html { scroll-behavior: smooth; overflow-x: hidden }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased }
 h1,h2,h3,h4,h5,h6 { color: var(--text); font-weight: 700 }
 ::selection { background: var(--primary); color: #fff }
 ::-webkit-scrollbar { width: 8px }

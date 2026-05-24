@@ -75,9 +75,9 @@ function Footer() {
         className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-emerald-600/8 blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-[1200px] px-6 pt-16 pb-8">
+      <div className="relative mx-auto max-w-[1200px] px-4 pt-16 pb-8 sm:px-6">
         {/* ── TOP ROW ── */}
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] md:gap-12">
 
           {/* Brand + newsletter */}
           <div className="flex flex-col gap-5">
@@ -115,18 +115,15 @@ function Footer() {
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">
                 Stay in the loop
               </p>
-              <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex items-center gap-2"
-              >
+              <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <input
                   type="email"
                   placeholder="your@email.com"
-                  className="flex-1 min-w-0 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-violet-500/60 focus:bg-violet-500/5 transition"
+                  className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 transition focus:border-violet-500/60 focus:bg-violet-500/5 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="flex-shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 px-3 py-2 text-sm font-semibold text-white hover:from-violet-500 hover:to-violet-600 transition"
+                  className="inline-flex flex-shrink-0 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 px-3 py-2 text-sm font-semibold text-white transition hover:from-violet-500 hover:to-violet-600"
                 >
                   <FiMail size={14} /> Subscribe
                 </button>
@@ -144,7 +141,7 @@ function Footer() {
         <div className="my-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         {/* ── BOTTOM ROW ── */}
-        <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
+        <div className="flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
           {/* Copyright */}
           <p className="text-xs text-slate-500 text-center sm:text-left">
             © {year}{" "}
@@ -177,7 +174,7 @@ function Footer() {
         </div>
 
         {/* ── LEGAL BAR ── */}
-        <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2">
+        <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 sm:gap-x-6">
           {["Privacy Policy", "Terms of Service", "Cookie Policy", "Accessibility"].map((item) => (
             <span
               key={item}

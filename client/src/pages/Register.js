@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import API from "../services/api";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   FiUser,
   FiMail,
@@ -21,23 +21,14 @@ function Register() {
   const [role, setRole] = useState("customer");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const requestedRole = params.get("role");
-
-    if (requestedRole === "vendor") {
-      setRole("vendor");
-    }
-  }, [location.search]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       await API.post("/auth/register", { name, email, password, role });
-      navigate("/login", { state: { successMessage: "Registered successfully. Please sign in." } });
+      alert("Account created! Please sign in.");
+      navigate("/login");
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || "Registration failed. Try again.");
