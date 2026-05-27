@@ -53,6 +53,7 @@ function Home() {
   const [priceRange, setPriceRange] = useState(10000);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("featured");
   const [accessError, setAccessError] = useState(location.state?.error || null);
 
   useEffect(() => {
@@ -102,6 +103,20 @@ function Home() {
     const searchMatch = productName.includes(searchText) || productDescription.includes(searchText);
     const categoryMatch = selectedCategory === "all" || normalizeCategory(product.category) === selectedCategory;
     return priceMatch && searchMatch && categoryMatch;
+  }).sort((leftProduct, rightProduct) => {
+    if (sortBy === "price-low-high") {
+      return Number(leftProduct.price) - Number(rightProduct.price);
+    }
+
+    if (sortBy === "price-high-low") {
+      return Number(rightProduct.price) - Number(leftProduct.price);
+    }
+
+    if (sortBy === "newest") {
+      return new Date(rightProduct.createdAt || 0) - new Date(leftProduct.createdAt || 0);
+    }
+
+    return 0;
   });
 
   if (loading) {
@@ -289,11 +304,15 @@ function Home() {
             <h2 className="!m-0 text-2xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
               Products <span className="ml-2 text-sm font-normal text-slate-400">({filteredProducts.length} items)</span>
             </h2>
-            <select className="w-full rounded-full border border-white/10 bg-slate-900 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 sm:w-auto">
-              <option>Sort by: Featured</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-              <option>Newest Arrivals</option>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full rounded-full border border-white/10 bg-slate-900 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 sm:w-auto"
+            >
+              <option value="featured">Sort by: Featured</option>
+              <option value="price-low-high">Price: Low to High</option>
+              <option value="price-high-low">Price: High to Low</option>
+              <option value="newest">Newest Arrivals</option>
             </select>
           </div>
 
