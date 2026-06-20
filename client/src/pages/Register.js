@@ -72,16 +72,16 @@ function Register() {
   const perks = role === "vendor" ? vendorPerks : shopperPerks;
 
   return (
-    <div className="flex min-h-[calc(100vh-60px)] bg-[#0a0b0f] text-slate-100">
-      <div className={`relative hidden flex-1 overflow-hidden px-10 py-12 lg:flex lg:flex-col lg:items-center lg:justify-center ${role === "vendor" ? "bg-[linear-gradient(145deg,#051a12_0%,#091f10_50%,#0a1628_100%)]" : "bg-[linear-gradient(145deg,#0f0a2e_0%,#0a1628_50%,#051a12_100%)]"}`}>
-        <div className={`pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full blur-3xl ${role === "vendor" ? "bg-emerald-400/20" : "bg-violet-500/25"}`} />
-        <div className={`pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl ${role === "vendor" ? "bg-violet-500/20" : "bg-emerald-400/15"}`} />
+    <div className="flex min-h-[calc(100vh-60px)] bg-slate-950 text-slate-100">
+      <div className={`relative hidden flex-1 overflow-hidden px-10 py-12 lg:flex lg:flex-col lg:items-center lg:justify-center ${role === "vendor" ? "bg-[linear-gradient(145deg,#0f172a_0%,#172554_50%,#111827_100%)]" : "bg-[linear-gradient(145deg,#111827_0%,#1e293b_50%,#0f172a_100%)]"}`}>
+        <div className={`pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full blur-3xl ${role === "vendor" ? "bg-sky-400/20" : "bg-amber-500/20"}`} />
+        <div className={`pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl ${role === "vendor" ? "bg-amber-400/15" : "bg-sky-400/15"}`} />
 
         <div className="relative z-10 mb-4 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-emerald-400">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-amber-400">
             <FiZap size={22} color="#fff" />
           </div>
-          <span className="bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text text-2xl font-extrabold text-transparent">
+          <span className="bg-gradient-to-r from-sky-300 to-amber-300 bg-clip-text text-2xl font-extrabold text-transparent">
             AccessoryHub
           </span>
         </div>
@@ -98,7 +98,7 @@ function Register() {
         <div className="relative z-10 mt-8 flex w-full max-w-sm flex-col gap-3">
           {perks.map((perk, index) => (
             <div key={index} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
-              <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${role === "vendor" ? "bg-emerald-400/20 text-emerald-300" : "bg-violet-500/20 text-violet-300"}`}>
+              <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${role === "vendor" ? "bg-sky-400/20 text-sky-300" : "bg-amber-500/20 text-amber-300"}`}>
                 <FiCheck size={14} />
               </div>
               <p className="text-sm leading-6 text-slate-300">{perk}</p>
@@ -107,10 +107,10 @@ function Register() {
         </div>
 
         <div className="relative z-10 mt-8 flex gap-3">
-          <div className="flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-500/15 px-3 py-2 text-[0.78rem] font-semibold text-violet-300">
+          <div className="flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-500/15 px-3 py-2 text-[0.78rem] font-semibold text-sky-300">
             <FiStar size={11} /> 4.9 Rated
           </div>
-          <div className="flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.78rem] font-semibold text-emerald-300">
+          <div className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-[0.78rem] font-semibold text-amber-300">
             <FiShield size={11} /> SSL Secured
           </div>
         </div>
@@ -129,25 +129,25 @@ function Register() {
               <button
                 type="button"
                 onClick={() => setRole("customer")}
-                className={`flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 transition ${role === "customer" ? "border-violet-500 bg-violet-500/10 shadow-[0_0_24px_rgba(124,58,237,0.25)]" : "border-white/10 bg-slate-800/70 hover:border-violet-500/40"}`}
+                className={`flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 transition ${role === "customer" ? "border-amber-500 bg-amber-500/10 shadow-[0_0_24px_rgba(245,158,11,0.25)]" : "border-white/10 bg-slate-800/70 hover:border-amber-500/40"}`}
               >
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${role === "customer" ? "bg-violet-500/20 text-violet-300" : "bg-slate-800 text-slate-500"}`}>
+                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${role === "customer" ? "bg-amber-500/20 text-amber-300" : "bg-slate-800 text-slate-500"}`}>
                   <FiShoppingBag size={19} />
                 </div>
                 <span className={`text-sm font-semibold ${role === "customer" ? "text-slate-100" : "text-slate-400"}`}>Customer</span>
-                <span className={`text-[0.72rem] ${role === "customer" ? "text-violet-300" : "text-slate-500"}`}>Shop &amp; discover</span>
+                <span className={`text-[0.72rem] ${role === "customer" ? "text-amber-300" : "text-slate-500"}`}>Shop &amp; discover</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setRole("vendor")}
-                className={`flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 transition ${role === "vendor" ? "border-emerald-400 bg-emerald-400/10 shadow-[0_0_24px_rgba(6,214,160,0.2)]" : "border-white/10 bg-slate-800/70 hover:border-emerald-400/40"}`}
+                className={`flex flex-col items-center gap-2 rounded-2xl border px-4 py-4 transition ${role === "vendor" ? "border-sky-400 bg-sky-400/10 shadow-[0_0_24px_rgba(14,165,233,0.2)]" : "border-white/10 bg-slate-800/70 hover:border-sky-400/40"}`}
               >
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${role === "vendor" ? "bg-emerald-400/20 text-emerald-300" : "bg-slate-800 text-slate-500"}`}>
+                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${role === "vendor" ? "bg-sky-400/20 text-sky-300" : "bg-slate-800 text-slate-500"}`}>
                   <FiBriefcase size={19} />
                 </div>
                 <span className={`text-sm font-semibold ${role === "vendor" ? "text-slate-100" : "text-slate-400"}`}>Vendor</span>
-                <span className={`text-[0.72rem] ${role === "vendor" ? "text-emerald-300" : "text-slate-500"}`}>Sell &amp; grow</span>
+                <span className={`text-[0.72rem] ${role === "vendor" ? "text-sky-300" : "text-slate-500"}`}>Sell &amp; grow</span>
               </button>
             </div>
           </div>
@@ -163,7 +163,7 @@ function Register() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
             </div>
 
@@ -177,7 +177,7 @@ function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
             </div>
 
@@ -192,7 +192,7 @@ function Register() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength="6"
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
 
               {password && (
@@ -214,7 +214,7 @@ function Register() {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 ${role === "vendor" ? "bg-gradient-to-r from-emerald-500 to-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30" : "bg-gradient-to-r from-violet-600 to-violet-700 hover:shadow-lg hover:shadow-violet-500/30"}`}
+            className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 ${role === "vendor" ? "bg-gradient-to-r from-sky-500 to-sky-600 hover:shadow-lg hover:shadow-sky-500/30" : "bg-gradient-to-r from-amber-500 to-amber-600 hover:shadow-lg hover:shadow-amber-500/30"}`}
           >
             {loading ? (
               <>
@@ -229,7 +229,7 @@ function Register() {
           <div className="mt-6 border-t border-white/10 pt-6 text-center">
             <p className="text-sm text-slate-400">
               Already have an account?{" "}
-              <Link to="/login" className="font-bold text-violet-300 transition hover:text-violet-200">
+              <Link to="/login" className="font-bold text-amber-300 transition hover:text-amber-200">
                 Sign in
               </Link>
             </p>

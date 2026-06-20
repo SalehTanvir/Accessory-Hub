@@ -3,15 +3,70 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  --bg: #0a0b0f;
-  --primary: #7c3aed;
-  --text: #f1f5f9;
+:root {
+  /* ===== THEME CUSTOMIZATION ===== */
+  /* Change these three colors to update the entire app theme */
+  --theme-primary-accent: #f59e0b;    /* Amber - Action buttons, CTA, highlights */
+  --theme-secondary-accent: #06b6d4;  /* Cyan - Vendor/secondary elements */
+  --theme-base-dark: #1a1a2e;         /* Dark charcoal - Main background */
+  
+  /* ===== SEMANTIC COLORS ===== */
+  --bg: var(--theme-base-dark);
+  --surface: #111827;
+  --surface-2: #1e293b;
+  --primary: var(--theme-primary-accent);
+  --secondary: var(--theme-secondary-accent);
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  
+  /* ===== PRIMARY ACCENT SHADES (Auto-generated from --theme-primary-accent) ===== */
+  /* For Tailwind: use bg-primary-50, text-primary-500, etc. */
+  --primary-50: #fffbeb;
+  --primary-100: #fef3c7;
+  --primary-200: #fde68a;
+  --primary-300: #fcd34d;
+  --primary-400: #fbbf24;
+  --primary-500: var(--theme-primary-accent);
+  --primary-600: #d97706;
+  --primary-700: #b45309;
+  --primary-800: #92400e;
+  --primary-900: #78350f;
+  
+  /* ===== SECONDARY ACCENT SHADES (Auto-generated from --theme-secondary-accent) ===== */
+  /* For Tailwind: use bg-secondary-50, text-secondary-500, etc. */
+  --secondary-50: #f0f9ff;
+  --secondary-100: #e0f2fe;
+  --secondary-200: #bae6fd;
+  --secondary-300: #7dd3fc;
+  --secondary-400: #38bdf8;
+  --secondary-500: var(--theme-secondary-accent);
+  --secondary-600: #0284c7;
+  --secondary-700: #0369a1;
+  --secondary-800: #075985;
+  --secondary-900: #0c3d66;
+  
+  /* ===== BASE COLOR SHADES ===== */
+  --base-50: #f8fafc;
+  --base-100: #f1f5f9;
+  --base-200: #e2e8f0;
+  --base-300: #cbd5e1;
+  --base-400: #94a3b8;
+  --base-500: #64748b;
+  --base-600: #475569;
+  --base-700: #334155;
+  --base-800: #252539;
+  --base-900: #1a1a2e;
+  
+  /* ===== UTILITY COLORS ===== */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0 }
 html { scroll-behavior: smooth; overflow-x: hidden }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased }
+body { font-family: 'Outfit', sans-serif; background: linear-gradient(180deg, #1a1a2e 0%, #141420 100%); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased }
 h1,h2,h3,h4,h5,h6 { color: var(--text); font-weight: 700 }
 ::selection { background: var(--primary); color: #fff }
 ::-webkit-scrollbar { width: 8px }

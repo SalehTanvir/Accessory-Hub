@@ -44,7 +44,7 @@ function FooterLinkGroup({ title, links }) {
         <Link
           key={label}
           to={to}
-          className="footer-link group inline-flex items-center gap-1 text-sm text-slate-400 hover:text-violet-300 transition-colors duration-200"
+          className="footer-link group inline-flex items-center gap-1 text-sm text-slate-400 hover:text-amber-300 transition-colors duration-200"
         >
           <FiArrowRight
             size={12}
@@ -68,11 +68,11 @@ function Footer() {
       {/* Ambient glow blobs */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/4 h-80 w-80 rounded-full bg-violet-700/10 blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/4 h-80 w-80 rounded-full bg-sky-700/10 blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-emerald-600/8 blur-3xl"
+        className="pointer-events-none absolute -top-40 right-1/4 h-80 w-80 rounded-full bg-amber-600/8 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-[1200px] px-4 pt-16 pb-8 sm:px-6">
@@ -83,9 +83,9 @@ function Footer() {
           <div className="flex flex-col gap-5">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-2xl font-extrabold bg-gradient-to-r from-violet-400 to-emerald-300 bg-clip-text text-transparent w-fit"
+              className="inline-flex items-center gap-2 text-2xl font-extrabold bg-gradient-to-r from-sky-300 to-amber-300 bg-clip-text text-transparent w-fit"
             >
-              <FiZap size={22} className="text-violet-400 flex-shrink-0" />
+              <FiZap size={22} className="text-amber-400 flex-shrink-0" />
               AccessoryHub
             </Link>
 
@@ -97,15 +97,15 @@ function Footer() {
             {/* Contact info */}
             <div className="flex flex-col gap-2 text-sm text-slate-500">
               <span className="inline-flex items-center gap-2">
-                <FiMapPin size={14} className="text-violet-400 flex-shrink-0" />
+                <FiMapPin size={14} className="text-amber-400 flex-shrink-0" />
                 123 Market Street, Dhaka, Bangladesh
               </span>
               <span className="inline-flex items-center gap-2">
-                <FiPhone size={14} className="text-violet-400 flex-shrink-0" />
+                <FiPhone size={14} className="text-amber-400 flex-shrink-0" />
                 +880 1700-000000
               </span>
               <span className="inline-flex items-center gap-2">
-                <FiMail size={14} className="text-violet-400 flex-shrink-0" />
+                <FiMail size={14} className="text-amber-400 flex-shrink-0" />
                 support@accessoryhub.io
               </span>
             </div>
@@ -119,11 +119,11 @@ function Footer() {
                 <input
                   type="email"
                   placeholder="your@email.com"
-                  className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 transition focus:border-violet-500/60 focus:bg-violet-500/5 focus:outline-none"
+                  className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 transition focus:border-amber-500/60 focus:bg-amber-500/5 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex flex-shrink-0 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 px-3 py-2 text-sm font-semibold text-white transition hover:from-violet-500 hover:to-violet-600"
+                  className="inline-flex flex-shrink-0 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-2 text-sm font-semibold text-white transition hover:from-amber-400 hover:to-amber-500"
                 >
                   <FiMail size={14} /> Subscribe
                 </button>
@@ -152,7 +152,7 @@ function Footer() {
           {/* Vendor CTA pill */}
           <Link
             to="/vendor"
-            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-400/5 px-4 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-400/10 hover:border-emerald-400/40 transition"
+            className="inline-flex items-center gap-2 rounded-full border border-sky-500/25 bg-sky-400/5 px-4 py-2 text-xs font-semibold text-sky-300 hover:bg-sky-400/10 hover:border-sky-400/40 transition"
           >
             <FiTrendingUp size={13} />
             Sell on AccessoryHub
@@ -165,7 +165,7 @@ function Footer() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 hover:text-violet-300 hover:border-violet-500/40 hover:bg-violet-500/10 transition"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 hover:text-amber-300 hover:border-amber-500/40 hover:bg-amber-500/10 transition"
               >
                 <Icon size={15} />
               </a>

@@ -103,61 +103,61 @@ function VendorDashboard() {
   return (
     <div className="mx-auto min-h-[calc(100vh-60px)] max-w-[1400px] px-3 py-4 text-slate-100 sm:px-6 lg:px-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+        <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-sky-300 to-amber-300 bg-clip-text">
           Vendor Dashboard
         </h2>
-        <button className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30" onClick={() => setIsAdding(!isAdding)}>
+        <button className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/30" onClick={() => setIsAdding(!isAdding)}>
           {isAdding ? "Cancel" : <><FiPlus /> Add Product</>}
         </button>
       </div>
 
       <div className="mb-10 grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-violet-500/20 bg-slate-900/80 p-5 shadow-lg">
+        <div className="rounded-2xl border border-sky-500/20 bg-slate-900/80 p-5 shadow-lg">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Total Products</p>
-              <p className="mt-2 text-4xl font-extrabold text-violet-300">{stats.total}</p>
+              <p className="mt-2 text-4xl font-extrabold text-sky-300">{stats.total}</p>
             </div>
-            <div className="rounded-2xl bg-violet-500/10 p-3 text-violet-300"><FiBox size={24} /></div>
+            <div className="rounded-2xl bg-sky-500/10 p-3 text-sky-300"><FiBox size={24} /></div>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-pink-500/20 bg-slate-900/80 p-5 shadow-lg">
+        <div className="rounded-2xl border border-rose-500/20 bg-slate-900/80 p-5 shadow-lg">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Out of Stock</p>
-              <p className="mt-2 text-4xl font-extrabold text-pink-400">{stats.outOfStock}</p>
+              <p className="mt-2 text-4xl font-extrabold text-rose-400">{stats.outOfStock}</p>
             </div>
-            <div className="rounded-2xl bg-pink-500/10 p-3 text-pink-400"><FiAlertTriangle size={24} /></div>
+            <div className="rounded-2xl bg-rose-500/10 p-3 text-rose-400"><FiAlertTriangle size={24} /></div>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-emerald-400/20 bg-slate-900/80 p-5 shadow-lg">
+        <div className="rounded-2xl border border-amber-400/20 bg-slate-900/80 p-5 shadow-lg">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Inventory Value</p>
-              <p className="mt-2 text-4xl font-extrabold text-emerald-400">৳ {stats.totalValue.toLocaleString()}</p>
+              <p className="mt-2 text-4xl font-extrabold text-amber-400">৳ {stats.totalValue.toLocaleString()}</p>
             </div>
-            <div className="rounded-2xl bg-emerald-400/10 p-3 text-emerald-300"><FiDollarSign size={24} /></div>
+            <div className="rounded-2xl bg-amber-400/10 p-3 text-amber-300"><FiDollarSign size={24} /></div>
           </div>
         </div>
       </div>
 
       <div className={`overflow-hidden transition-all duration-500 ${isAdding ? "max-h-[1400px] opacity-100" : "max-h-0 opacity-0"}`}>
         <form onSubmit={handleSubmit} className="mb-10 rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-2xl backdrop-blur">
-          <h3 className="mb-6 flex items-center gap-3 text-xl font-bold text-violet-300">
-            <span className="h-2 w-2 rounded-full bg-violet-500" />
+          <h3 className="mb-6 flex items-center gap-3 text-xl font-bold text-amber-300">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
             Product Details
           </h3>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Product Name</label>
-              <input name="name" placeholder="E.g. Wireless Earbuds" value={formData.name} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              <input name="name" placeholder="E.g. Wireless Earbuds" value={formData.name} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
             </div>
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Category</label>
-              <select name="category" value={formData.category} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-slate-100 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30">
+              <select name="category" value={formData.category} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-slate-100 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30">
                 <option value="Electronics">Electronics</option>
                 <option value="Fashion">Fashion</option>
                 <option value="Home">Home & Decor</option>
@@ -170,25 +170,25 @@ function VendorDashboard() {
 
           <div className="mt-4 space-y-2">
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Description</label>
-            <textarea name="description" placeholder="Briefly describe your product..." value={formData.description} onChange={handleChange} rows="3" required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+            <textarea name="description" placeholder="Briefly describe your product..." value={formData.description} onChange={handleChange} rows="3" required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
           </div>
 
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Price (৳)</label>
-              <input name="price" placeholder="0.00" type="number" min="0" value={formData.price} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              <input name="price" placeholder="0.00" type="number" min="0" value={formData.price} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
             </div>
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Stock Quantity</label>
-              <input name="stock" placeholder="0" type="number" min="0" value={formData.stock} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              <input name="stock" placeholder="0" type="number" min="0" value={formData.stock} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
             </div>
           </div>
 
           <div className="mt-4 space-y-2">
             <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Product Image</label>
-            <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-violet-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-violet-500 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+            <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300 outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-amber-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-amber-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
             <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
-              <input name="image" placeholder="Optional image URL fallback" value={formData.image} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30" />
+              <input name="image" placeholder="Optional image URL fallback" value={formData.image} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
               <span className="text-xs text-slate-500">Use either file upload or URL</span>
             </div>
             {(imagePreview || formData.image) && (
@@ -204,7 +204,7 @@ function VendorDashboard() {
 
           <div className="mt-6 flex justify-end gap-3 border-t border-white/10 pt-5">
             <button type="button" onClick={() => { setIsAdding(false); setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" }); resetImageSelection(); }} className="rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">Cancel</button>
-            <button type="submit" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30"><FiCheckCircle /> Publish Product</button>
+            <button type="submit" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/30"><FiCheckCircle /> Publish Product</button>
           </div>
         </form>
       </div>
@@ -218,7 +218,7 @@ function VendorDashboard() {
           <FiBox size={48} className="mx-auto mb-4 text-slate-500" />
           <h2 className="mb-2 text-3xl font-extrabold text-slate-100">Your catalog is empty</h2>
           <p className="text-sm leading-7 text-slate-400">Add your first product to start selling on AccessoryHub</p>
-          <button className="mt-5 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30" onClick={() => setIsAdding(true)}>Add Product</button>
+          <button className="mt-5 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/30" onClick={() => setIsAdding(true)}>Add Product</button>
         </div>
       ) : (
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-lg">
@@ -248,8 +248,8 @@ function VendorDashboard() {
 
                 <div>
                   {p.stock > 0 ? (
-                    <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> In Stock ({p.stock})
+                    <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-sm text-sky-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-400" /> In Stock ({p.stock})
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-2 rounded-full border border-red-500/20 bg-red-500/10 px-3 py-1 text-sm text-red-300">

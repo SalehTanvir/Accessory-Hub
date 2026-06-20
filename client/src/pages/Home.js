@@ -121,9 +121,9 @@ function Home() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[calc(100vh-60px)] items-center justify-center bg-[#0a0b0f] px-4 text-slate-100">
+      <div className="flex min-h-[calc(100vh-60px)] items-center justify-center bg-slate-950 px-4 text-slate-100">
         <div className="flex flex-col items-center gap-4 text-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-violet-500/20 border-t-violet-500" />
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-500/20 border-t-amber-500" />
           <span className="text-sm font-medium text-slate-300">Loading products...</span>
         </div>
       </div>
@@ -151,13 +151,13 @@ function Home() {
         </div>
       )}
 
-      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,#1a0533_0%,#0f172a_40%,#0a1628_100%)] px-6 py-16 text-center shadow-2xl sm:px-10">
-        <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-violet-500/20 blur-3xl" />
-        <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
-        <div className="relative z-10 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-200">
+      <section className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,#0f172a_0%,#172554_42%,#111827_100%)] px-6 py-16 text-center shadow-2xl sm:px-10 hidden">
+        <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-sky-500/18 blur-3xl" />
+        <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-amber-400/18 blur-3xl" />
+        <div className="relative z-10 inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/12 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">
           🔥 Top Selling Accessories
         </div>
-        <h1 className="relative z-10 mt-6 bg-gradient-to-r from-white via-violet-100 to-violet-300 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl lg:text-5xl">
+        <h1 className="relative z-10 mt-6 bg-gradient-to-r from-white via-sky-100 to-amber-200 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl lg:text-5xl">
           Welcome to AccessoryHub
         </h1>
         <p className="relative z-10 mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
@@ -166,7 +166,7 @@ function Home() {
         <button
           type="button"
           onClick={() => navigate("/vendors")}
-          className="relative z-10 mt-8 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:-translate-y-0.5 hover:shadow-violet-500/50"
+          className="relative z-10 mt-8 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-500/30 transition hover:-translate-y-0.5 hover:shadow-amber-500/50"
         >
           Shop Now
         </button>
@@ -174,14 +174,14 @@ function Home() {
 
       <section className="mt-10">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <h2 className="text-xl font-bold text-transparent bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text">
+          <h2 className="text-xl font-bold text-transparent bg-gradient-to-r from-sky-300 to-amber-300 bg-clip-text">
             Shop by Category
           </h2>
           {selectedCategory !== "all" && (
             <button
               type="button"
               onClick={() => setSelectedCategory("all")}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300 transition hover:border-violet-500/40 hover:bg-violet-500/10 hover:text-white"
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300 transition hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-white"
             >
               Clear category
             </button>
@@ -191,13 +191,13 @@ function Home() {
           <button
             type="button"
             onClick={() => setSelectedCategory("all")}
-            className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] ${
+            className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] ${
               selectedCategory === "all"
-                ? "border-violet-400/70 bg-violet-500/20 text-white shadow-[0_0_30px_rgba(124,58,237,0.25)]"
-                : "border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10"
+                ? "border-amber-400/70 bg-amber-500/20 text-white shadow-[0_0_30px_rgba(245,158,11,0.25)]"
+                : "border-white/10 bg-white/5 hover:border-amber-500/50 hover:bg-amber-500/10"
             }`}
           >
-            <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
+            <div className="mb-3 flex items-center justify-center text-amber-300 transition group-hover:text-amber-200">
               <FiPackage size={28} />
             </div>
             <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">
@@ -213,13 +213,13 @@ function Home() {
                 type="button"
                 onClick={() => setSelectedCategory(normalizeCategory(name))}
                 aria-pressed={isActive}
-                className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] ${
+                className={`group min-w-[130px] shrink-0 rounded-2xl border p-5 text-center backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] ${
                   isActive
-                    ? "border-violet-400/70 bg-violet-500/20 text-white shadow-[0_0_30px_rgba(124,58,237,0.25)]"
-                    : "border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10"
+                    ? "border-amber-400/70 bg-amber-500/20 text-white shadow-[0_0_30px_rgba(245,158,11,0.25)]"
+                    : "border-white/10 bg-white/5 hover:border-amber-500/50 hover:bg-amber-500/10"
                 }`}
               >
-                <div className="mb-3 flex items-center justify-center text-violet-300 transition group-hover:text-violet-200">
+                <div className="mb-3 flex items-center justify-center text-amber-300 transition group-hover:text-amber-200">
                   <Icon size={28} />
                 </div>
                 <h3 className="text-sm font-medium text-slate-400 transition group-hover:text-slate-100">{name}</h3>
@@ -232,7 +232,7 @@ function Home() {
       <section className="mt-10 flex flex-col gap-8 lg:flex-row">
         <aside className="h-fit w-full rounded-2xl border border-white/10 bg-slate-900/80 p-6 backdrop-blur lg:sticky lg:top-20 lg:w-64">
           <div className="border-b border-white/10 pb-5">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-amber-300">
               <FiSearch size={16} /> Search
             </h3>
             <div className="relative">
@@ -241,14 +241,14 @@ function Home() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
               <FiSearch className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500" />
             </div>
           </div>
 
           <div className="border-b border-white/10 py-5">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-amber-300">
               <FiFilter size={16} /> Price Range
             </h3>
             <input
@@ -257,7 +257,7 @@ function Home() {
               max="10000"
               value={priceRange}
               onChange={(e) => setPriceRange(Number(e.target.value))}
-              className="w-full accent-violet-500"
+              className="w-full accent-amber-500"
             />
             <div className="mt-2 flex items-center justify-between text-xs">
               <span className="text-slate-500">৳ 0</span>

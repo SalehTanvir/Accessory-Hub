@@ -3,7 +3,7 @@ import API from "../services/api";
 import { resolveImageUrl } from "../services/imageUrl";
 import { 
   FiUsers, FiPackage, FiShoppingCart, FiDollarSign, 
-  FiTrash2, FiActivity, FiRefreshCw, FiCheck 
+  FiTrash2, FiActivity 
 } from "react-icons/fi";
 
 function AdminDashboard() {
@@ -12,7 +12,6 @@ function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchStats = async () => {
     try {

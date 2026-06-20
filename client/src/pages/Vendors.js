@@ -52,12 +52,12 @@ function Vendors() {
 
   return (
     <div className="mx-auto min-h-[calc(100vh-60px)] max-w-[1400px] px-3 py-6 text-slate-100 sm:px-6 lg:px-8">
-      <section className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,#10112b_0%,#0a1628_48%,#08101c_100%)] px-6 py-10 shadow-2xl sm:px-10">
-        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-emerald-400/15 blur-3xl" />
+      <section className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,#0f172a_0%,#172554_48%,#111827_100%)] px-6 py-10 shadow-2xl sm:px-10">
+        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-sky-500/18 blur-3xl" />
+        <div className="absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-amber-400/15 blur-3xl" />
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-violet-200">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-sky-200">
               <FiShoppingBag size={14} /> Vendor Marketplace
             </div>
             <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
@@ -80,7 +80,7 @@ function Vendors() {
             </button>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 transition hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-500/30 transition hover:-translate-y-0.5"
             >
               Shop Products
             </Link>
@@ -91,7 +91,7 @@ function Vendors() {
       {loading ? (
         <div className="flex items-center justify-center py-20 text-slate-300">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-violet-500/20 border-t-violet-500" />
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-500/20 border-t-amber-500" />
             <span className="text-sm font-medium">Loading vendors...</span>
           </div>
         </div>
@@ -103,7 +103,7 @@ function Vendors() {
         <div className="mt-8 grid gap-8 lg:grid-cols-[320px_1fr]">
           <aside className="h-fit rounded-3xl border border-white/10 bg-slate-900/80 p-6 backdrop-blur">
             <div className="mb-6 flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-300">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-500/15 text-sky-300">
                 <FiShoppingBag size={28} />
               </div>
               <div>
@@ -114,22 +114,22 @@ function Vendors() {
 
             <div className="space-y-4 text-sm text-slate-300">
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                <FiPackage className="text-violet-300" size={16} />
+                <FiPackage className="text-sky-300" size={16} />
                 <span>{vendorDetail?.vendor?.productCount || 0} products</span>
               </div>
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                <FiGrid className="text-violet-300" size={16} />
+                <FiGrid className="text-sky-300" size={16} />
                 <span>{vendorDetail?.vendor?.categories?.length || 0} categories</span>
               </div>
               <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                <FiCalendar className="text-violet-300" size={16} />
+                <FiCalendar className="text-sky-300" size={16} />
                 <span>
                   Joined {vendorDetail?.vendor?.joinedAt ? new Date(vendorDetail.vendor.joinedAt).getFullYear() : "recently"}
                 </span>
               </div>
             </div>
 
-            <div className="mt-6 rounded-2xl border border-white/10 bg-violet-500/10 px-4 py-4 text-sm leading-6 text-slate-300">
+            <div className="mt-6 rounded-2xl border border-white/10 bg-sky-500/10 px-4 py-4 text-sm leading-6 text-slate-300">
               {vendorDetail?.vendor?.description}
             </div>
 
@@ -158,21 +158,21 @@ function Vendors() {
             {vendorDetail?.products?.length ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {vendorDetail.products.map((product) => (
-                  <article key={product._id} className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-lg transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.18)]">
+                  <article key={product._id} className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-lg transition hover:-translate-y-1 hover:border-amber-500/30 hover:shadow-[0_0_30px_rgba(245,158,11,0.18)]">
                     <div className="flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                       {product.image ? (
                         <img src={resolveImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
                       ) : (
-                        <FiBox size={44} className="text-violet-300/50" />
+                        <FiBox size={44} className="text-amber-300/50" />
                       )}
                     </div>
 
                     <div className="p-5">
                       <div className="mb-3 flex items-center justify-between gap-2 text-xs text-slate-500">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-violet-500/10 px-2 py-1 text-violet-200">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-1 text-amber-200">
                           <FiTag size={10} /> {product.category}
                         </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-emerald-300">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2 py-1 text-sky-300">
                           <FiTruck size={10} /> {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
                         </span>
                       </div>
@@ -182,7 +182,7 @@ function Vendors() {
                         {product.description}
                       </p>
                       <div className="flex items-center justify-between gap-3">
-                        <span className="text-lg font-extrabold text-emerald-400">৳ {Number(product.price).toLocaleString()}</span>
+                        <span className="text-lg font-extrabold text-amber-400">৳ {Number(product.price).toLocaleString()}</span>
                         <span className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300">
                           <FiChevronRight size={14} /> Product listed
                         </span>
@@ -212,24 +212,24 @@ function Vendors() {
           {vendorList.length ? (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {vendorList.map((vendor) => (
-                <button
+                  <button
                   key={vendor.id}
                   type="button"
                   onClick={() => navigate(`/vendors/${vendor.id}`)}
-                  className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 text-left shadow-lg transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.18)]"
+                  className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 text-left shadow-lg transition hover:-translate-y-1 hover:border-amber-500/30 hover:shadow-[0_0_30px_rgba(245,158,11,0.18)]"
                 >
-                  <div className="flex h-40 items-center justify-center bg-gradient-to-br from-violet-500/20 via-slate-900 to-slate-950">
+                  <div className="flex h-40 items-center justify-center bg-gradient-to-br from-sky-500/20 via-slate-900 to-slate-950">
                     {vendor.featuredImage ? (
                       <img src={resolveImageUrl(vendor.featuredImage)} alt={vendor.name} className="h-full w-full object-cover opacity-80 transition duration-300 group-hover:scale-105 group-hover:opacity-100" />
                     ) : (
-                      <FiShoppingBag size={48} className="text-violet-300/60" />
+                      <FiShoppingBag size={48} className="text-amber-300/60" />
                     )}
                   </div>
 
                   <div className="p-6">
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <h3 className="text-xl font-bold text-white">{vendor.name}</h3>
-                      <span className="rounded-full border border-violet-400/20 bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-200">
+                      <span className="rounded-full border border-amber-400/20 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">
                         {vendor.productCount} products
                       </span>
                     </div>
@@ -250,7 +250,7 @@ function Vendors() {
                       <span className="inline-flex items-center gap-2">
                         <FiBox size={14} /> Click to view products
                       </span>
-                      <FiChevronRight className="text-violet-300" size={16} />
+                      <FiChevronRight className="text-amber-300" size={16} />
                     </div>
                   </div>
                 </button>

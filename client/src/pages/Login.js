@@ -24,11 +24,7 @@ function Login() {
       navigate("/");
     } catch (error) {
       console.error("Login error:", error);
-      const message =
-        error?.response?.data?.message || // real server error
-        error?.message ||                 // network/axios error
-        "Something went wrong. Please try again.";
-      alert(message);
+      alert("Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -41,21 +37,21 @@ function Login() {
   ];
 
   return (
-    <div className="flex min-h-[calc(100vh-60px)] bg-[#0a0b0f] text-slate-100">
+    <div className="flex min-h-[calc(100vh-60px)] bg-slate-950 text-slate-100">
 
       {/* ── LEFT BRAND PANEL ── */}
-      <div className="relative hidden flex-1 overflow-hidden px-10 py-12 lg:flex lg:flex-col lg:items-center lg:justify-center bg-[linear-gradient(145deg,#0f0a2e_0%,#0a1628_50%,#051a12_100%)]">
+      <div className="relative hidden flex-1 overflow-hidden px-10 py-12 lg:flex lg:flex-col lg:items-center lg:justify-center bg-[linear-gradient(145deg,#0f172a_0%,#172554_50%,#111827_100%)]">
 
         {/* Ambient glow blobs */}
-        <div className="pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full bg-violet-500/25 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-emerald-400/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full bg-sky-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-amber-400/15 blur-3xl" />
 
         {/* Logo */}
         <div className="relative z-10 mb-4 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-emerald-400">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-600 to-amber-400">
             <FiZap size={22} color="#fff" />
           </div>
-          <span className="bg-gradient-to-r from-violet-300 to-emerald-300 bg-clip-text text-2xl font-extrabold text-transparent">
+          <span className="bg-gradient-to-r from-sky-300 to-amber-300 bg-clip-text text-2xl font-extrabold text-transparent">
             AccessoryHub
           </span>
         </div>
@@ -75,7 +71,7 @@ function Login() {
               key={i}
               className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur"
             >
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-violet-500/20 text-violet-300">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky-500/20 text-sky-300">
                 <FiShoppingCart size={14} />
               </div>
               <p className="text-sm leading-6 text-slate-300">{item}</p>
@@ -85,10 +81,10 @@ function Login() {
 
         {/* Trust badges */}
         <div className="relative z-10 mt-8 flex gap-3">
-          <div className="flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-500/15 px-3 py-2 text-[0.78rem] font-semibold text-violet-300">
+          <div className="flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-500/15 px-3 py-2 text-[0.78rem] font-semibold text-sky-300">
             <FiStar size={11} /> 4.9 Rated
           </div>
-          <div className="flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-[0.78rem] font-semibold text-emerald-300">
+          <div className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-[0.78rem] font-semibold text-amber-300">
             <FiShield size={11} /> SSL Secured
           </div>
         </div>
@@ -123,7 +119,7 @@ function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
             </div>
 
@@ -139,11 +135,8 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
-              <div className="text-right">
-                <Link to="/forgot-password" className="text-sm text-violet-300 hover:text-violet-200">Forgot password?</Link>
-              </div>
             </div>
           </div>
 
@@ -152,7 +145,7 @@ function Login() {
             type="submit"
             id="login-submit-btn"
             disabled={loading}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-violet-700 px-5 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/30 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
           >
             {loading ? (
               <>
@@ -172,7 +165,7 @@ function Login() {
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="font-bold text-violet-300 transition hover:text-violet-200"
+                className="font-bold text-amber-300 transition hover:text-amber-200"
               >
                 Create one now
               </Link>
