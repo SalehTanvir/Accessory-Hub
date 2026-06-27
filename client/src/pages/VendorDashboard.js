@@ -6,7 +6,7 @@ import { FiCheckCircle, FiTrash2, FiPlus, FiPackage, FiAlertTriangle, FiBox, FiD
 function VendorDashboard() {
   const [products, setProducts] = useState([]);
   const [stats, setStats] = useState({ total: 0, outOfStock: 0, totalValue: 0 });
-  const [formData, setFormData] = useState({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" });
+  const [formData, setFormData] = useState({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "", discount: "" });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [isAdding, setIsAdding] = useState(false);
@@ -79,7 +79,7 @@ function VendorDashboard() {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" });
+      setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "", discount: "" });
   resetImageSelection();
       setIsAdding(false);
       fetchProducts();
@@ -173,10 +173,14 @@ function VendorDashboard() {
             <textarea name="description" placeholder="Briefly describe your product..." value={formData.description} onChange={handleChange} rows="3" required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
           </div>
 
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Price (৳)</label>
               <input name="price" placeholder="0.00" type="number" min="0" value={formData.price} onChange={handleChange} required className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Discount (%)</label>
+              <input name="discount" placeholder="0" type="number" min="0" max="100" value={formData.discount} onChange={handleChange} className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30" />
             </div>
             <div className="space-y-2">
               <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Stock Quantity</label>
@@ -203,7 +207,7 @@ function VendorDashboard() {
           </div>
 
           <div className="mt-6 flex justify-end gap-3 border-t border-white/10 pt-5">
-            <button type="button" onClick={() => { setIsAdding(false); setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "" }); resetImageSelection(); }} className="rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">Cancel</button>
+            <button type="button" onClick={() => { setIsAdding(false); setFormData({ name: "", description: "", price: "", category: "Electronics", image: "", stock: "", discount: "" }); resetImageSelection(); }} className="rounded-xl border border-white/10 bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 hover:text-white">Cancel</button>
             <button type="submit" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/30"><FiCheckCircle /> Publish Product</button>
           </div>
         </form>
@@ -244,6 +248,7 @@ function VendorDashboard() {
 
                 <div>
                   <div className="font-semibold text-slate-100">৳ {p.price.toLocaleString()}</div>
+                  {p.discount > 0 && <div className="text-xs font-medium text-amber-400 mt-1">-{p.discount}% Off</div>}
                 </div>
 
                 <div>

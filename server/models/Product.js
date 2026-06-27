@@ -36,6 +36,13 @@ const productSchema = new mongoose.Schema(
     default: 0
   },
 
+  discount: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100
+  },
+
   vendor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

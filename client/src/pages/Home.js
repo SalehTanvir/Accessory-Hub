@@ -247,7 +247,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="border-b border-white/10 py-5">
+          <div className="py-5">
             <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-amber-300">
               <FiFilter size={16} /> Price Range
             </h3>
@@ -263,39 +263,6 @@ function Home() {
               <span className="text-slate-500">৳ 0</span>
               <span className="font-semibold text-violet-300">Max: ৳ {Number(priceRange).toLocaleString()}</span>
             </div>
-          </div>
-
-          <div className="border-b border-white/10 py-5">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
-              <FiStar size={16} /> Rating
-            </h3>
-            {[5, 4, 3, 2, 1].map((rating) => (
-              <label key={rating} htmlFor={`rating-${rating}`} className="mb-2 flex cursor-pointer items-center gap-3 text-sm text-slate-400 last:mb-0">
-                <input type="checkbox" id={`rating-${rating}`} className="h-4 w-4 cursor-pointer accent-violet-500" />
-                <span className="text-amber-400">
-                  {Array(5).fill(0).map((_, i) => (
-                    <span key={i} className={i < rating ? "opacity-100" : "opacity-30"}>
-                      ★
-                    </span>
-                  ))}
-                </span>
-                <span>&amp; up</span>
-              </label>
-            ))}
-          </div>
-
-          <div className="pt-5">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
-              <FiTruck size={16} /> Delivery
-            </h3>
-            <label htmlFor="free-shipping" className="mb-2 flex cursor-pointer items-center gap-3 text-sm text-slate-400">
-              <input type="checkbox" id="free-shipping" defaultChecked className="h-4 w-4 cursor-pointer accent-violet-500" />
-              <span>Free Shipping</span>
-            </label>
-            <label htmlFor="express-delivery" className="flex cursor-pointer items-center gap-3 text-sm text-slate-400">
-              <input type="checkbox" id="express-delivery" className="h-4 w-4 cursor-pointer accent-violet-500" />
-              <span>Express Delivery</span>
-            </label>
           </div>
         </aside>
 
@@ -336,8 +303,8 @@ function Home() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {filteredProducts.map((product, index) => {
                 const vendor = getVendorInfo(index);
-                const discount = Math.floor(Math.random() * 40) + 5;
-                const originalPrice = Math.floor(product.price / (1 - discount / 100));
+                const discount = product.discount || 0;
+                const originalPrice = discount > 0 ? Math.floor(product.price / (1 - discount / 100)) : product.price;
 
                 return (
                   <div key={product._id} className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]">
