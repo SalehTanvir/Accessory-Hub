@@ -274,7 +274,7 @@ function Home() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full rounded-full border border-white/10 bg-slate-900 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 sm:w-auto"
+              className="w-full rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 outline-none transition hover:bg-white/10 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 sm:w-auto"
             >
               <option value="featured">Sort by: Featured</option>
               <option value="price-low-high">Price: Low to High</option>
