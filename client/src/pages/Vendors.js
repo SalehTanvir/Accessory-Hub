@@ -161,7 +161,7 @@ function Vendors() {
                   <article key={product._id} className="group overflow-hidden rounded-3xl border border-white/10 bg-slate-900/80 shadow-lg transition hover:-translate-y-1 hover:border-amber-500/30 hover:shadow-[0_0_30px_rgba(245,158,11,0.18)]">
                     <div className="flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                       {product.image ? (
-                        <img src={resolveImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover transition duration-300 group-hover:scale-105" />
+                        <img src={resolveImageUrl(product.image)} alt={product.name} width="400" height="300" loading="lazy" decoding="async" className="h-full w-full object-cover transition duration-300 group-hover:scale-105 bg-slate-800" />
                       ) : (
                         <FiBox size={44} className="text-amber-300/50" />
                       )}
@@ -220,7 +220,7 @@ function Vendors() {
                 >
                   <div className="flex h-40 items-center justify-center bg-gradient-to-br from-sky-500/20 via-slate-900 to-slate-950">
                     {vendor.featuredImage ? (
-                      <img src={resolveImageUrl(vendor.featuredImage)} alt={vendor.name} className="h-full w-full object-cover opacity-80 transition duration-300 group-hover:scale-105 group-hover:opacity-100" />
+                      <img src={resolveImageUrl(vendor.featuredImage)} alt={vendor.name} width="400" height="300" loading="lazy" decoding="async" className="h-full w-full object-cover opacity-80 transition duration-300 group-hover:scale-105 group-hover:opacity-100 bg-slate-800" />
                     ) : (
                       <FiShoppingBag size={48} className="text-amber-300/60" />
                     )}

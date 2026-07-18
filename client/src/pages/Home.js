@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import API from "../services/api";
 import { resolveImageUrl } from "../services/imageUrl";
@@ -95,29 +95,31 @@ function Home() {
     };
   };
 
-  const filteredProducts = products.filter((product) => {
-    const priceMatch = Number(product.price) <= priceRange;
-    const searchText = searchQuery.toLowerCase();
-    const productName = product.name?.toLowerCase() || "";
-    const productDescription = product.description?.toLowerCase() || "";
-    const searchMatch = productName.includes(searchText) || productDescription.includes(searchText);
-    const categoryMatch = selectedCategory === "all" || normalizeCategory(product.category) === selectedCategory;
-    return priceMatch && searchMatch && categoryMatch;
-  }).sort((leftProduct, rightProduct) => {
-    if (sortBy === "price-low-high") {
-      return Number(leftProduct.price) - Number(rightProduct.price);
-    }
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const priceMatch = Number(product.price) <= priceRange;
+      const searchText = searchQuery.toLowerCase();
+      const productName = product.name?.toLowerCase() || "";
+      const productDescription = product.description?.toLowerCase() || "";
+      const searchMatch = productName.includes(searchText) || productDescription.includes(searchText);
+      const categoryMatch = selectedCategory === "all" || normalizeCategory(product.category) === selectedCategory;
+      return priceMatch && searchMatch && categoryMatch;
+    }).sort((leftProduct, rightProduct) => {
+      if (sortBy === "price-low-high") {
+        return Number(leftProduct.price) - Number(rightProduct.price);
+      }
 
-    if (sortBy === "price-high-low") {
-      return Number(rightProduct.price) - Number(leftProduct.price);
-    }
+      if (sortBy === "price-high-low") {
+        return Number(rightProduct.price) - Number(leftProduct.price);
+      }
 
-    if (sortBy === "newest") {
-      return new Date(rightProduct.createdAt || 0) - new Date(leftProduct.createdAt || 0);
-    }
+      if (sortBy === "newest") {
+        return new Date(rightProduct.createdAt || 0) - new Date(leftProduct.createdAt || 0);
+      }
 
-    return 0;
-  });
+      return 0;
+    });
+  }, [products, priceRange, searchQuery, selectedCategory, sortBy]);
 
   if (loading) {
     return (
@@ -239,11 +241,12 @@ function Home() {
               <input
                 type="text"
                 placeholder="Search products..."
+                aria-label="Search products"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 pr-10 text-sm text-slate-100 placeholder:text-slate-400 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
-              <FiSearch className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <FiSearch className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
             </div>
           </div>
 
@@ -256,11 +259,12 @@ function Home() {
               min="0"
               max="10000"
               value={priceRange}
+              aria-label="Price range"
               onChange={(e) => setPriceRange(Number(e.target.value))}
               className="w-full accent-amber-500"
             />
             <div className="mt-2 flex items-center justify-between text-xs">
-              <span className="text-slate-500">৳ 0</span>
+              <span className="text-slate-400">৳ 0</span>
               <span className="font-semibold text-violet-300">Max: ৳ {Number(priceRange).toLocaleString()}</span>
             </div>
           </div>
@@ -273,6 +277,7 @@ function Home() {
             </h2>
             <select
               value={sortBy}
+              aria-label="Sort products"
               onChange={(e) => setSortBy(e.target.value)}
               className="w-full rounded-full border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 outline-none transition hover:bg-white/10 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 sm:w-auto"
             >
@@ -310,7 +315,7 @@ function Home() {
                   <div key={product._id} className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 transition hover:-translate-y-1 hover:border-violet-500/30 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]">
                     <div className="relative flex h-52 items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                       {product.image ? (
-                        <img src={resolveImageUrl(product.image)} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
+                        <img src={resolveImageUrl(product.image)} alt={product.name} width="400" height="300" loading={index < 4 ? "eager" : "lazy"} decoding="async" className="h-full w-full object-cover bg-slate-800" />
                       ) : (
                         <FiPackage size={48} className="text-violet-300/50" />
                       )}
@@ -323,7 +328,7 @@ function Home() {
                     </div>
 
                     <div className="flex flex-1 flex-col p-5">
-                      <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-500">
+                      <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-400">
                         <span>{vendor.name}</span>
                         <span className="inline-flex items-center rounded-full bg-violet-500/15 px-2 py-1 font-semibold text-violet-200">
                           <FiCheckCircle size={10} className="mr-1" /> Verified
@@ -338,12 +343,12 @@ function Home() {
                         <span className="inline-flex items-center text-amber-400">
                           <FiStar size={12} className="mr-1 fill-current" /> {vendor.rating}
                         </span>
-                        <span className="text-xs text-slate-500">({vendor.reviews} reviews)</span>
+                        <span className="text-xs text-slate-400">({vendor.reviews} reviews)</span>
                       </div>
 
                       <div className="mb-3 flex items-center gap-3">
                         <span className="text-xl font-extrabold text-emerald-400">৳ {Number(product.price).toLocaleString()}</span>
-                        {discount > 0 && <span className="text-sm text-slate-500 line-through">৳ {originalPrice.toLocaleString()}</span>}
+                        {discount > 0 && <span className="text-sm text-slate-400 line-through">৳ {originalPrice.toLocaleString()}</span>}
                       </div>
 
                       <div className="mb-3 inline-flex items-center rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-300">
@@ -372,6 +377,7 @@ function Home() {
                         <button
                           className="inline-flex w-11 items-center justify-center rounded-xl border border-pink-500/20 bg-slate-800 text-pink-400 transition hover:-translate-y-0.5 hover:bg-pink-500/10 hover:text-pink-300"
                           title="Add to Wishlist"
+                          aria-label={`Add ${product.name} to Wishlist`}
                         >
                           <FiHeart size={16} />
                         </button>
