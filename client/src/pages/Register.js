@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import API from "../services/api";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
   FiUser,
   FiMail,
@@ -18,7 +18,12 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("customer");
+  
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialRole = queryParams.get("role") === "vendor" ? "vendor" : "customer";
+  
+  const [role, setRole] = useState(initialRole);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 

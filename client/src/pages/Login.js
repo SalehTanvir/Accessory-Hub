@@ -125,9 +125,17 @@ function Login() {
 
             {/* Password */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                <FiLock size={13} /> Password
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  <FiLock size={13} /> Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-semibold text-amber-400 transition hover:text-amber-300"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <input
                 id="login-password"
                 type="password"
