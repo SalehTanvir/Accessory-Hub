@@ -25,18 +25,22 @@ function Register() {
   
   const [role, setRole] = useState(initialRole);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
+    setSuccess("");
     try {
       await API.post("/auth/register", { name, email, password, role });
-      alert("Account created! Please sign in.");
-      navigate("/login");
+      setSuccess("Account created! Redirecting to sign in...");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Registration failed. Try again.");
+      setError(err.response?.data?.message || "Registration failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -214,6 +218,13 @@ function Register() {
                 </div>
               )}
             </div>
+            
+            {error && (
+              <p className="text-sm font-medium text-red-400 mt-2">{error}</p>
+            )}
+            {success && (
+              <p className="text-sm font-medium text-emerald-400 mt-2">{success}</p>
+            )}
           </div>
 
           <button

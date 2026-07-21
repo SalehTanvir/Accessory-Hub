@@ -11,6 +11,7 @@ function Login() {
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState("");
 
   const { login }  = useContext(AuthContext);
   const navigate   = useNavigate();
@@ -18,13 +19,14 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     try {
       const res = await API.post("/auth/login", { email, password });
       login(res.data.token, res.data.user);
       navigate("/");
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Invalid email or password");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -145,6 +147,9 @@ function Login() {
                 required
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30"
               />
+              {error && (
+                <p className="text-sm font-medium text-red-400 mt-2">{error}</p>
+              )}
             </div>
           </div>
 
